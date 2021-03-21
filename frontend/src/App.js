@@ -7,7 +7,7 @@ function App() {
 		<>
 			<Navbar />
 			<CssBaseline />
-			<h1>COMPSCI732 Group Project</h1>
+			<h1>COMPSCI732 Project</h1>
 		</>
 	);
 }
