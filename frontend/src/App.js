@@ -1,13 +1,14 @@
 import React from "react";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar/Navbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Homepage from "./pages/Homepage";
 
 function App() {
 	return (
 		<>
 			<Navbar />
 			<CssBaseline />
-			<h1>COMPSCI732 Project</h1>
+			<Homepage />
 		</>
 	);
 }
