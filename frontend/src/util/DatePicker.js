@@ -8,10 +8,6 @@ import {
 } from "@material-ui/pickers";
 
 const MaterialUIPicker = (props) => {
-      const [selectedDate, setSelectedDate] = useState(new Date('2020-03-25T00:00:00'));
-      const handleDateChange = (date) => {
-            setSelectedDate(date);
-          };
 
       return(
 	<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -23,8 +19,8 @@ const MaterialUIPicker = (props) => {
 				margin="normal"
 				id="date-picker-inline"
 				label={props.datelabel}
-				value={selectedDate}
-				onChange={handleDateChange}
+				value={props.value}
+				onChange={props.changed}
 				KeyboardButtonProps={{
 					"aria-label": "change date",
 				}}
