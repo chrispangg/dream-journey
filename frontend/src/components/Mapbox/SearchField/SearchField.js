@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 const SearchField = (props) => {
 	mapboxgl.accessToken =
@@ -10,13 +10,18 @@ const SearchField = (props) => {
 	useEffect(() => {
 		const geocoder = new MapboxGeocoder({
 			accessToken: mapboxgl.accessToken,
-			types: "country,region,place,postcode,locality,neighborhood",
+			types:
+				"country,region,postcode,district, place, locality, neighborhood, address",
 		});
 
 		geocoder.addTo("#geocoder");
-	});
+	}, []);
 
-	return <div id="geocoder"></div>;
+	return (
+		<>
+			<div id="geocoder" onBlur={props.changed}></div>
+		</>
+	);
 };
 
 export default SearchField;
