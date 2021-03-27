@@ -46,11 +46,7 @@ const Mapbox = () => {
 		return () => map.remove();
 	}, [lat, lng, zoom, markers]);
 
-	return (
-		<div className="mapdiv">
-			<div id="mapContainer" className={classes.map}></div>
-		</div>
-	);
+	return <div id="mapContainer" className={classes.map}></div>;
 };
 
 export default Mapbox;
