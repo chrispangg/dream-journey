@@ -25,6 +25,7 @@ const Mapbox = () => {
 		});
 		//add nav control to map
 		const nav = new mapboxgl.NavigationControl();
+
 		map.addControl(nav, "top-right");
 
 		//generate markers
@@ -49,7 +50,7 @@ const Mapbox = () => {
 		<div className="mapdiv">
 			<div id="mapContainer" className={classes.map}></div>
 		</div>
-	)
+	);
 };
 
 export default Mapbox;

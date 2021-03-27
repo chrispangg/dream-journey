@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./AddLocationCard.module.css";
+import SearchField from "../Mapbox/SearchField/SearchField";
 import {
 	makeStyles,
 	Card,
@@ -9,7 +10,6 @@ import {
 	Typography,
 } from "@material-ui/core/";
 import DatePicker from "../../util/DatePicker";
-// import SearchField from "../Mapbox/SearchField/SearchField";
 
 const useStyles = makeStyles({
 	root: {
@@ -29,7 +29,13 @@ const useStyles = makeStyles({
 });
 
 const AddLocationCard = () => {
+	const [result, setResult] = useState("");
 	const classes = useStyles();
+
+	useEffect(() => {
+		console.log(result);
+	});
+
 	return (
 		<Card className={classes.root + " " + styles.card}>
 			<CardContent>
@@ -41,7 +47,8 @@ const AddLocationCard = () => {
 					Add Trips
 				</Typography>
 				<Typography variant="p">Destination City</Typography>
-				
+				<SearchField changed={(e) => setResult(e.target.value)} />
+
 				<DatePicker datelabel="start date" />
 				<DatePicker datelabel="end date" />
 			</CardContent>
