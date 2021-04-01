@@ -10,7 +10,7 @@ const router = express.Router();
 
 //creating a new trip
 router.post("/", async (req, res) => {
-	const newTrip = await todoDao.createTodo(req.body);
+	const newTrip = await trip.createTrip(req.body);
 
 	res
 		.status(HTTP_CREATED)
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 //Retrive all trips (of a user)
 router.get("/user/:userId", async (req, res) => {
 	const { userId } = req.params;
-	res.json(await tripsDao.retrieveAllTrips(userId));
+	res.json(await tripsDao.retrieveAllUserTrips(userId));
 });
 
 //Retrieve single trip
@@ -58,7 +58,7 @@ router.put("/:tripId", async (req, res) => {
 router.delete("/:tripId", async (req, res) => {
 	try {
 		const { tripId } = req.params;
-		await tripsDao.deleteTodo(tripId);
+		await tripsDao.deleteTrip(tripId);
 		res.sendStatus(HTTP_NO_CONTENT);
 	} catch {
 		res.sendStatus(400);
