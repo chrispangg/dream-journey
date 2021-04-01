@@ -41,8 +41,9 @@ const AddLocationCard = () => {
 		console.log(result);
 		//create a new object
 		//send results to server
-
-	
+		const newTrip = {
+			//add something here
+		};
 	});
 
 	return (
