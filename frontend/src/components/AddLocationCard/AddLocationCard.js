@@ -10,6 +10,7 @@ import {
 	Typography,
 } from "@material-ui/core/";
 import DatePicker from "../../util/DatePicker";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles({
 	root: {
@@ -29,11 +30,20 @@ const useStyles = makeStyles({
 });
 
 const AddLocationCard = () => {
-	const [result, setResult] = useState("");
+	const [result, setResult] = useState({
+		startDate: dayjs(),
+		endDate: dayjs().add(7, "day"),
+		destination: "Auckland",
+	});
 	const classes = useStyles();
 
 	useEffect(() => {
 		console.log(result);
+		//create a new object
+		//send results to server
+		const newTrip = {
+			//add something here
+		};
 	});
 
 	return (
@@ -47,10 +57,20 @@ const AddLocationCard = () => {
 					Add Trips
 				</Typography>
 				<Typography variant="p">Destination City</Typography>
-				<SearchField changed={(e) => setResult(e.target.value)} />
+				<SearchField
+					changed={(e) => setResult({ ...result, destination: e.target.value })}
+				/>
 
-				<DatePicker datelabel="start date" />
-				<DatePicker datelabel="end date" />
+				<DatePicker
+					datelabel="start date"
+					changed={(e) => setResult({ ...result, startDate: new Date(e) })}
+					value={result.startDate}
+				/>
+				<DatePicker
+					datelabel="end date"
+					changed={(e) => setResult({ ...result, endDate: new Date(e) })}
+					value={result.startDate}
+				/>
 			</CardContent>
 			<CardActions>
 				<Button size="large" color="primary">
