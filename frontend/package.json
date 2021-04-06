@@ -15,11 +15,17 @@
     "axios": "^0.21.1",
     "date-fns": "^2.19.0",
     "dayjs": "^1.10.4",
+    "deck.gl": "^8.4.11",
     "mapbox-gl": "1.13.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-map-gl": "^6.1.11",
+    "react-map-gl-geocoder": "^2.1.6",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.1"
+    "styled-components": "^5.2.3",
+    "web-vitals": "^1.1.1",
+    "worker-loader": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest": "^26.6.0"
   }
 }
