@@ -6,13 +6,16 @@
   "scripts": {
     "start": "node -r esm ./src/server.js",
     "server": "npm run start",
-    "production": "cross-env NODE_ENV=production PORT=3000 node -r esm ./src/server.js"
+    "production": "cross-env NODE_ENV=production PORT=3000 node -r esm ./src/server.js",
+    "init-db": "node -r esm ./src/db/init-db-stays.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.10.4",
     "esm": "^3.2.25",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"
