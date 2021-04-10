@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "@auth0/auth0-react": "^1.4.0",
     "@date-io/date-fns": "^1.3.13",
     "@mapbox/mapbox-gl-geocoder": "^4.7.0",
     "@material-ui/core": "^4.11.3",
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "jest": "^26.6.0"
   }
 }
