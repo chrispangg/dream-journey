@@ -12,8 +12,7 @@ const Mapbox = () => {
 	]);
 
 	//API token
-	mapboxgl.accessToken =
-		"pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
+	mapboxgl.accessToken = "pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
 
 	useEffect(() => {
 		//generates map
@@ -29,9 +28,11 @@ const Mapbox = () => {
 		map.addControl(nav, "top-right");
 
 		//generate markers
-		markers.map((marker) =>
-			new mapboxgl.Marker().setLngLat(marker.longlat).addTo(map)
-		);
+		markers.map((marker) => {
+			let newMarker = new mapboxgl.Marker().setLngLat(marker.longlat);
+			newMarker.addTo(map);
+			console.log("The coordinator is: " + newMarker.getLngLat().lng + ", " + newMarker.getLngLat().lat);
+		});
 
 		//find geo location of user
 		const geolocate = new mapboxgl.GeolocateControl({
@@ -46,7 +47,7 @@ const Mapbox = () => {
 		return () => map.remove();
 	}, [lat, lng, zoom, markers]);
 
-	return <div id="mapContainer" className={classes.map}></div>;
+	return <div id="mapContainer" className={ classes.map }></div>;
 };
 
 export default Mapbox;

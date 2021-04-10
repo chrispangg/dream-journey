@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dayjs": "^1.10.4",
     "esm": "^3.2.25",
     "express": "^4.17.1",
