@@ -22,7 +22,8 @@ async function main() {
 }
 
 async function clearDatabase() {
-	
+	const result = await Trip.deleteMany();
+	console.log(`Clear database (removed ${result.deletedCount} trips)`);
 }
 
 async function addData() {

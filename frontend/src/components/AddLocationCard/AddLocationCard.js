@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./AddLocationCard.module.css";
 import SearchField from "../Mapbox/SearchField/SearchField";
-import axios from "axios";
 import {
 	makeStyles,
 	Card,
@@ -12,6 +11,7 @@ import {
 } from "@material-ui/core/";
 import DatePicker from "../../util/DatePicker";
 import dayjs from "dayjs";
+import { AppContext } from '../../AppContextProvider';
 
 const useStyles = makeStyles({
 	root: {
@@ -30,10 +30,6 @@ const useStyles = makeStyles({
 	},
 });
 
-let accessToken =
-	"pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
-
-
 const AddLocationCard = () => {
 	const [result, setResult] = useState({
 		startDate: dayjs(),
@@ -42,22 +38,22 @@ const AddLocationCard = () => {
 	});
 	const classes = useStyles();
 
-	useEffect(() => {
-    console.log(result);
-    const locationURL = encodeURIComponent(result.destination);
-    let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURL}.json?limit=1&types=place&access_token=${accessToken}`;
+	const { trips, tripsLoading, createTrips, refetchTrips, updateTrips, deleteTrips } = useContext(AppContext);
 
-		const callApi = async () => {
-			try {
-				const response = await axios.get(url);
-        console.log(response.data);
+	// useEffect(() => {
+	// 	console.log(result);
+	// 	//create a new object
+	// 	//send results to server
+	// 	const newTrip = {
+	// 		//add something here
+	// 	};
+	// });
 
-			} catch (error) {
-				console.log(error.message);
-			}
-		}
-    callApi();
-	});
+	async function handleAdd(){
+		console.log("Do something!");
+		console.log(result);
+		await createTrips({ result });
+	}
 
 	return (
 		<Card className={classes.root + " " + styles.card}>
@@ -71,7 +67,7 @@ const AddLocationCard = () => {
 				</Typography>
 				<Typography variant="p">Destination City</Typography>
 				<SearchField
-					changed={(e) => setResult({ ...result, destination: e.target.value })}
+					changed={(e) => {setResult({ ...result, destination: e.target.value });}}
 				/>
 
 				<DatePicker
@@ -86,7 +82,7 @@ const AddLocationCard = () => {
 				/>
 			</CardContent>
 			<CardActions>
-				<Button size="large" color="primary">
+				<Button size="large" color="primary" onClick={ handleAdd }>
 					Add Trip
 				</Button>
 			</CardActions>

@@ -1,12 +1,35 @@
 import React from 'react';
+import useCrud from './hooks/useCrud';
 
 const AppContext = React.createContext({
-  user: null,
-  trips: [],
-  stays: [],
-  activities: [],
-});
+    trips: []
+  });
 
-//this should contained fetched data from the database.
+  //this should contained fetched data from the databaes.
+  function AppContextProvider({ children }) {
+    const {
+      data: trips,
+      isLoading: tripsLoading,
+      create: createTrips,
+      reFetch: refetchTrips,
+      update: updateTrips,
+      delete: deleteTrips
+    } = useCrud('/api/trips', []);
 
-export default AppContext;
+    const context = {
+      trips,
+      tripsLoading,
+      createTrips,
+      refetchTrips,
+      updateTrips,
+      deleteTrips
+    };
+
+    return (
+      <AppContext.Provider value={ context }>
+        { children }
+      </AppContext.Provider>
+    );
+  }
+  
+  export { AppContext, AppContextProvider };
