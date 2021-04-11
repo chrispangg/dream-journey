@@ -2,13 +2,9 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 
-const dotenv = require('dotenv');
-
 const Auth0ProviderWithHistory = ({ children }) => {
-  const _ = dotenv.config().parsed;
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-
   const history = useHistory();
 
   const onRedirectCallback = (appState) => {
@@ -21,6 +17,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
           clientId={clientId}
           redirectUri={window.location.origin}
           onRedirectCallback={onRedirectCallback}
+          cacheLocation="localstorage"
       >
         {children}
       </Auth0Provider>
