@@ -10,7 +10,7 @@ export async function retrieveAllTrips() {
 export async function retrieveAllUserTrips(userId) {
   const trips = [];
   const allTrips = await Trip.find();
-  for (trip in allTrips) {
+  for (let trip in allTrips) {
     //assuming there's a property called "userId" in the schema
     if ((trip.userId = userId)) {
       trips.push(trip);
