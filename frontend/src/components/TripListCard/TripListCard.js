@@ -16,14 +16,13 @@ const useStyles = makeStyles({
 const TripListCard = () => {
     const materialClass = useStyles();
     const { pathname } = useLocation();
-
     return (
         <Card className={ materialClass.root }>
             <CardContent>
                 <Typography className={ materialClass.title } color="textSecondary" gutterBottom>Trips List</Typography>
             </CardContent>
             <CardActions>
-                <Link to={`${pathname}/tripdetails`}>Jump to Detailed Page</Link>
+                <Link to={`${pathname}tripdetails`}>Jump to Detailed Page</Link>
             </CardActions>
         </Card>
     );
