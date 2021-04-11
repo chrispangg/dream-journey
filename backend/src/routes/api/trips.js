@@ -10,12 +10,8 @@ const router = express.Router();
 
 //creating a new trip
 router.post("/", async (req, res) => {
-	console.log("Request: " + req.body.result.destination);
-	const newTrip = await tripsDao.createTrip({
-		locationName: req.body.result.destination,
-		locationPoint: "Testing point"
-	});
-	console.log("Testing create a new trip");
+	console.log(req.body);
+	const newTrip = await tripsDao.createTrip(req.body.result);
 	console.log("Add trip: " + newTrip);
 
 	res.status(HTTP_CREATED)
@@ -56,7 +52,9 @@ router.get("/:tripId", async (req, res) => {
 router.put("/:tripId", async (req, res) => {
 	try {
 		const { tripId } = req.params;
+		
 		const trip = req.body;
+		console.log(trip);
 		trip._id = tripId;
 		const success = await tripsDao.updateTrip(trip);
 		res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);

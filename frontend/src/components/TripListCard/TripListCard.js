@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles, Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
+import styles from "./TripList.module.css"
 import { Link, useLocation } from 'react-router-dom';
+import TripSummary from "../TripSummary/TripSummary.component";
 
 const useStyles = makeStyles({
     root: { minWidth: 50 },
@@ -18,9 +20,10 @@ const TripListCard = () => {
     const { pathname } = useLocation();
 
     return (
-        <Card className={ materialClass.root }>
+        <Card className={ materialClass.root + " " + styles.card }>
             <CardContent>
                 <Typography className={ materialClass.title } color="textSecondary" gutterBottom>Trips List</Typography>
+                <TripSummary />
             </CardContent>
             <CardActions>
                 <Link to={`${pathname}/tripdetails`}>Jump to Detailed Page</Link>
