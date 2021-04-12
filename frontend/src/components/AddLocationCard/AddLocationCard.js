@@ -53,7 +53,7 @@ const AddLocationCard = () => {
 	//adding new location
 	const handleNewLocation = async (event) => {
 
-		//TODO: because api takes time, we need to add a spinning wheel on the card...
+		//please delete the following 
 
 		const value = event.target.value
 		console.log("the location is: " + value);
