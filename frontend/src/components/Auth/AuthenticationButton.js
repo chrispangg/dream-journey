@@ -6,16 +6,7 @@ import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const AuthenticationButton = () => {
-  const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
-
-  console.log("isAuthenticated: ",isAuthenticated)
-  console.log("isLoading", isLoading)
-
-  if (isLoading) {
-    return <span>Loading!</span>
-  }
-
-
+  const { isAuthenticated } = useAuth0();
 
   return isAuthenticated ? <LogoutButton /> : <LoginButton />;
 };
