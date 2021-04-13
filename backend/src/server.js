@@ -4,7 +4,7 @@ import connectToDatabase from './db/db-connect';
 
 // Setup Express
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Setup body-parser
 app.use(express.json());

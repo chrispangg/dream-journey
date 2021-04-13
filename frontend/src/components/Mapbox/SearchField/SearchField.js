@@ -14,7 +14,7 @@ const SearchField = (props) => {
 	
 		console.log("Coordinate is: " + geocoder.getProximity);
 		geocoder.addTo("#geocoder");
-	}, [props]);
+	}, []);
 
 	return (
 		<>

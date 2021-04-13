@@ -13,7 +13,7 @@ const AppContext = React.createContext({
       create: createTrips,
       reFetch: refetchTrips,
       update: updateTrips,
-      delete: deleteTrips
+      deleteItem: deleteTrips
     } = useCrud('/api/trips', []);
 
     const context = {
