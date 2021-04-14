@@ -7,7 +7,7 @@ const tripSchema = new Schema({
 	longitude: { type: String, required: true },
 	latitude: { type: String, required: true },
 	startDate: { type: Date, required: true },
-	endDate: Date
+	endDate: { type: Date, required: true },
 }, {
 	timestamps: {}
 });
