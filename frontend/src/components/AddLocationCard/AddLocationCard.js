@@ -88,6 +88,8 @@ const AddLocationCard = () => {
 		callApi();
 
 		console.log("Do something!");
+	
+		
 		console.log(result);
 		await createTrips({ result });
 		alert("New trip added!");
