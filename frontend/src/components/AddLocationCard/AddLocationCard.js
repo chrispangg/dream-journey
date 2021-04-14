@@ -12,6 +12,7 @@ import {
 import DatePicker from "../../util/DatePicker";
 import dayjs from "dayjs";
 import { AppContext } from '../../AppContextProvider';
+import axios from "axios";
 
 const useStyles = makeStyles({
   root: {
@@ -32,27 +33,64 @@ const useStyles = makeStyles({
 
 const AddLocationCard = () => {
   const [result, setResult] = useState({
-    startDate: dayjs(),
-    endDate: dayjs().add(7, 'day'),
-    destination: 'Auckland',
+	destination: 'Boston',
+    longitude: -70.9,
+	latitude: 42.35,
+	startDate: dayjs(),
+    endDate: dayjs().add(7, 'day')
   });
   const classes = useStyles();
 
 	const { trips, tripsLoading, createTrips, refetchTrips, updateTrips, deleteTrips } = useContext(AppContext);
+	const mapboxAccessToken = "pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
 
-	// useEffect(() => {
-	// 	console.log(result);
-	// 	//create a new object
-	// 	//send results to server
-	// 	const newTrip = {
-	// 		//add something here
-	// 	};
-	// });
+	// function handleFetchCoordinator(){
+	// 	console.log("Destination: " + result.destination);
+		
+	// 	const locationURI = encodeURIComponent(result.destination);
+	// 	let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place&access_token=${mapboxAccessToken}`;
+
+	// 	const callApi = async () => {
+	// 		try {
+	// 			const response = await axios.get(requestURL);
+	// 			const responseJSON = response.data;
+	// 			const responseFeatures = responseJSON.features;
+	// 			console.log("The name of location is: " + responseFeatures[1].place_name);
+	// 			console.log("The longitude is: " + responseFeatures[1].geometry.coordinates[0]);
+	// 			console.log("The latitude is: " + responseFeatures[1].geometry.coordinates[1]);
+	// 			setResult({ ...result, longitude: responseFeatures[1].geometry.coordinates[0], latitude: responseFeatures[1].geometry.coordinates[1] });
+	// 		} catch(error) {
+	// 			console.log(error.message);
+	// 		}
+	// 	}
+	// 	callApi();
+	// }
 
 	async function handleAdd(){
+		console.log("Destination: " + result.destination);
+		
+		const locationURI = encodeURIComponent(result.destination);
+		let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place&access_token=${mapboxAccessToken}`;
+
+		const callApi = async () => {
+			try {
+				const response = await axios.get(requestURL);
+				const responseJSON = response.data;
+				const responseFeatures = responseJSON.features;
+				console.log("The name of location is: " + responseFeatures[1].place_name);
+				console.log("The longitude is: " + responseFeatures[1].geometry.coordinates[0]);
+				console.log("The latitude is: " + responseFeatures[1].geometry.coordinates[1]);
+				setResult({ ...result, longitude: responseFeatures[1].geometry.coordinates[0], latitude: responseFeatures[1].geometry.coordinates[1] });
+			} catch(error) {
+				console.log(error.message);
+			}
+		}
+		callApi();
+
 		console.log("Do something!");
 		console.log(result);
 		await createTrips({ result });
+		alert("New trip added!");
 	}
 
 	return (
@@ -65,20 +103,28 @@ const AddLocationCard = () => {
 				>
 					Add Trips
 				</Typography>
+
 				<Typography variant="p">Destination City</Typography>
-				<SearchField
-					changed={(e) => {setResult({ ...result, destination: e.target.value });}}
+				
+				<SearchField changed={(e) => {setResult({ ...result, destination: e.target.value });}} />
+
+				<DatePicker
+					datelabel="start-date"
+					changed={(e) => {
+						let today = new Date(e);
+						let tomorrow = new Date(e);
+						tomorrow.setDate(today.getDate() + 7);
+						setResult({ ...result, startDate: today, endDate: tomorrow });
+						console.log("Date: " + result.startDate);
+						console.log("Location: " + result.destination);
+					}}
+					value={result.startDate}
 				/>
 
 				<DatePicker
-					datelabel="start date"
-					changed={(e) => setResult({ ...result, startDate: new Date(e) })}
-					value={result.startDate}
-				/>
-				<DatePicker
-					datelabel="end date"
+					datelabel="end-date"
 					changed={(e) => setResult({ ...result, endDate: new Date(e) })}
-					value={result.startDate}
+					value={result.endDate}
 				/>
 			</CardContent>
 			<CardActions>

@@ -10,12 +10,20 @@ const router = express.Router();
 
 //creating a new trip
 router.post("/", async (req, res) => {
-	console.log("Request: " + req.body.result.destination);
+	const resultBody = req.body.result;
+	// console.log("Object: " + req.body.result);
+	// console.log("Request: " + req.body.result.destination);
+	// console.log("Longitude: " + req.body.result.longitude);
+	// console.log("Start date: " + req.body.result.startDate);
+	// console.log("End date: " + req.body.result.endDate);
 	const newTrip = await tripsDao.createTrip({
-		locationName: req.body.result.destination,
-		locationPoint: "Testing point"
+		locationName: resultBody.destination,
+		longitude: resultBody.longitude,
+		latitude: resultBody.latitude,
+		startDate: resultBody.startDate,
+		endDate: resultBody.endDate
 	});
-	console.log("Testing create a new trip");
+	// console.log("Testing create a new trip");
 	console.log("Add trip: " + newTrip);
 
 	res.status(HTTP_CREATED)
