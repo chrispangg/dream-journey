@@ -12,13 +12,12 @@ const SearchField = (props) => {
 			types: "country, region, postcode, district, place, locality, neighborhood, address",
 		});
 	
-		console.log("Coordinate is: " + geocoder.getProximity);
 		geocoder.addTo("#geocoder");
-	}, [props]);
+	}, []);
 
 	return (
 		<>
-			<div id="geocoder" onBlur={ props.changed }></div>
+			<div id="geocoder" onBlur={props.changed}></div>
 		</>
 	);
 };
