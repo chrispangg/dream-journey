@@ -63,11 +63,10 @@ router.get("/:tripId", async (req, res) => {
 //Update trip
 router.put("/:tripId", async (req, res) => {
 	try {
-		const { tripId } = req.params;
 		const trip = req.body;
-		trip._id = tripId;
 		const success = await tripsDao.updateTrip(trip);
 		res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
+		
 	} catch {
 		res.sendStatus(400);
 	}

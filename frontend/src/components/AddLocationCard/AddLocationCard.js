@@ -15,20 +15,20 @@ import { AppContext } from '../../AppContextProvider';
 import axios from "axios";
 
 const useStyles = makeStyles({
-  root: {
-    minWidth: 50,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 30,
-  },
-  pos: {
-    marginBottom: 12,
-  },
+	root: {
+		minWidth: 50,
+	},
+	bullet: {
+		display: "inline-block",
+		margin: "0 2px",
+		transform: "scale(0.8)",
+	},
+	title: {
+		fontSize: 30,
+	},
+	pos: {
+		marginBottom: 12,
+	},
 });
 
 const AddLocationCard = () => {
