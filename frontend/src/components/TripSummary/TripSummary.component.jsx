@@ -34,7 +34,6 @@ export default function StaySummary() {
 
   const [tripId, setTripId] = useState(null);
 
-
   const [formValue, setFormValue] = useState({});
 
   const [open, setOpen] = React.useState(false);
