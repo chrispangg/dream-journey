@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core/";
 import DatePicker from "../../util/DatePicker";
 import dayjs from "dayjs";
-import { AppContext } from '../../AppContextProvider';
+import { AppContext } from "../../AppContextProvider";
 import axios from "axios";
 
 const useStyles = makeStyles({
@@ -32,21 +32,25 @@ const useStyles = makeStyles({
 });
 
 const AddLocationCard = () => {
-  const [result, setResult] = useState({
-	destination: 'Boston',
-    longitude: -70.9,
-	latitude: 42.35,
-	startDate: dayjs(),
-    endDate: dayjs().add(7, 'day')
-  });
-  const classes = useStyles();
+	const [result, setResult] = useState({
+		destination: "Boston",
+		longitude: -70.9,
+		latitude: 42.35,
+		startDate: dayjs(),
+		endDate: dayjs().add(7, "day"),
+		completed: false,
+	});
+	const classes = useStyles();
 
-	const { trips, tripsLoading, createTrips, refetchTrips, updateTrips, deleteTrips } = useContext(AppContext);
-	const mapboxAccessToken = "pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
+	const {
+		createTrips,
+	} = useContext(AppContext);
+	const mapboxAccessToken =
+		"pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
 
 	// function handleFetchCoordinator(){
 	// 	console.log("Destination: " + result.destination);
-		
+
 	// 	const locationURI = encodeURIComponent(result.destination);
 	// 	let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place&access_token=${mapboxAccessToken}`;
 
@@ -66,32 +70,51 @@ const AddLocationCard = () => {
 	// 	callApi();
 	// }
 
-	async function handleAdd(){
+	async function handleAdd() {
 		console.log("Destination: " + result.destination);
-		
+
 		const locationURI = encodeURIComponent(result.destination);
-		let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place&access_token=${mapboxAccessToken}`;
+		let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place,region&access_token=${mapboxAccessToken}`;
 
 		const callApi = async () => {
 			try {
 				const response = await axios.get(requestURL);
 				const responseJSON = response.data;
 				const responseFeatures = responseJSON.features;
-				console.log("The name of location is: " + responseFeatures[1].place_name);
-				console.log("The longitude is: " + responseFeatures[1].geometry.coordinates[0]);
-				console.log("The latitude is: " + responseFeatures[1].geometry.coordinates[1]);
-				setResult({ ...result, longitude: responseFeatures[1].geometry.coordinates[0], latitude: responseFeatures[1].geometry.coordinates[1] });
-			} catch(error) {
+				console.log(
+					"The name of location is: " + responseFeatures[0].place_name
+				);
+				console.log(
+					"The longitude is: " + responseFeatures[0].geometry.coordinates[0]
+				);
+				console.log(
+					"The latitude is: " + responseFeatures[0].geometry.coordinates[1]
+				);
+				setResult({
+					...result,
+					longitude: responseFeatures[0].geometry.coordinates[0],
+					latitude: responseFeatures[0].geometry.coordinates[1],
+					completed: true
+				});
+			} catch (error) {
 				console.log(error.message);
 			}
-		}
+			
+		};
 		callApi();
 
-		console.log("Do something!");
-		console.log(result);
-		await createTrips({ result });
-		alert("New trip added!");
+		
 	}
+
+	useEffect(()=>{
+		console.log(result);
+		if(result.completed){
+			createTrips({ result });
+			setResult({...result, completed: false});
+		}
+		
+	},[result])
+
 
 	return (
 		<Card className={classes.root + " " + styles.card}>
@@ -105,8 +128,12 @@ const AddLocationCard = () => {
 				</Typography>
 
 				<Typography variant="p">Destination City</Typography>
-				
-				<SearchField changed={(e) => {setResult({ ...result, destination: e.target.value });}} />
+
+				<SearchField
+					changed={(e) => {
+						setResult({ ...result, destination: e.target.value });
+					}}
+				/>
 
 				<DatePicker
 					datelabel="start-date"
@@ -128,7 +155,7 @@ const AddLocationCard = () => {
 				/>
 			</CardContent>
 			<CardActions>
-				<Button size="large" color="primary" onClick={ handleAdd }>
+				<Button size="large" color="primary" onClick={handleAdd}>
 					Add Trip
 				</Button>
 			</CardActions>
