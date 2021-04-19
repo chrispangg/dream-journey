@@ -9,7 +9,9 @@ const SearchField = (props) => {
 	useEffect(() => {
 		const geocoder = new MapboxGeocoder({
 			accessToken: mapboxgl.accessToken,
-			types: "country, region, postcode, district, place, locality, neighborhood, address",
+			// types: "country, region, postcode, district, place, locality, neighborhood, address",
+			types: "region,place",
+
 		});
 	
 		geocoder.addTo("#geocoder");
