@@ -118,6 +118,11 @@ export default function StaySummary() {
                       DELETE
                     </Button>
                   </Box>
+                  <Box>
+                    <Button size="small" classes={{ root: classes.button }} variant="contained" color="" >
+                      View
+                    </Button>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}
