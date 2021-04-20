@@ -45,8 +45,9 @@ const AddLocationCard = () => {
 	const {
 		createTrips,
 	} = useContext(AppContext);
-	const mapboxAccessToken =
-		"pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
+	
+	const mapboxAccessToken =  process.env.REACT_APP_MAPBOX;
+
 
 	// function handleFetchCoordinator(){
 	// 	console.log("Destination: " + result.destination);
