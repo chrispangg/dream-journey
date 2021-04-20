@@ -29,16 +29,8 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <MenuIcon />
-        </IconButton>
         <Typography variant="h6" className={classes.title}>
-          Logo
+          Travelmate
         </Typography>
         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
           <Button color="inherit">Home Page</Button>
