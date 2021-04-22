@@ -33,9 +33,9 @@ const SearchField = (props) => {
 		};
 		
 		let resultValues = await callApi();
-		console.log();
+		let parseJSONResult = JSON.parse(JSON.stringify(resultValues));
 
-		props.changed(resultValues);
+		props.changed(parseJSONResult);
 	}
 
 	useEffect(() => {

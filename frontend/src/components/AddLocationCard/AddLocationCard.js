@@ -45,9 +45,8 @@ const AddLocationCard = () => {
 	const { createTrips } = useContext(AppContext);
 
 	async function handleAdd() {
-
 		console.log("This is what we are adding: " + result);
-		setResult({...result, completed: true});
+		setResult({ ...result, completed: true });
 	}
 
 	useEffect(() => {
@@ -72,12 +71,13 @@ const AddLocationCard = () => {
 					<Box>
 						<SearchField
 							changed={(e) => {
-								let searchResult = JSON.parse((JSON.stringify(e)));
-								setResult(({...result, 
-										destination: searchResult.destination, 
-										longitude: searchResult.longitude, 
-										latitude: searchResult.latitude,
-										}))
+								// let searchResult = JSON.parse(JSON.stringify(e));
+								setResult({
+									...result,
+									destination: e.destination,
+									longitude: e.longitude,
+									latitude: e.latitude,
+								});
 							}}
 							placeholder="Enter Destination City"
 							types="region,place"
