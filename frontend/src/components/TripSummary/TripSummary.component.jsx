@@ -17,6 +17,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import SearchField from "../Mapbox/SearchField/SearchField";
 
 const useStyles = makeStyles({
 	table: {
@@ -139,10 +140,10 @@ export default function StaySummary() {
 								</TableCell>
 								<TableCell align="center">
 									<Box>
-                
 										<Link
 											style={{ textDecoration: "none", color: "white" }}
-											to={"/tripdetails/" + trip._id} key={trip._id}
+											to={"/tripdetails/" + trip._id}
+											key={trip._id}
 										>
 											<Button
 												size="small"
@@ -180,7 +181,9 @@ export default function StaySummary() {
 										name="locationName"
 										onChange={handleInputChange}
 										value={formValue.locationName}
+										disabled = "true"
 									/>
+									
 								</Box>
 							</Box>
 							<Box display="flex" alignItems="center">
