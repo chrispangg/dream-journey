@@ -51,9 +51,9 @@ export default function StaySummary() {
 		setOpenWarning(false);
 	};
 
-	const handleClickOpen = (stay) => {
+	const handleClickOpen = (trip) => {
 		setOpen(true);
-		setFormValue(stay);
+		setFormValue(trip);
 	};
 
 	const handleClose = () => {
@@ -165,7 +165,7 @@ export default function StaySummary() {
 				onClose={handleClose}
 				aria-labelledby="form-dialog-title"
 			>
-				<DialogTitle id="form-dialog-title">Stay Details</DialogTitle>
+				<DialogTitle id="form-dialog-title">Trip Details</DialogTitle>
 				<DialogContent>
 					<Container maxWidth="md">
 						<Box p={3} borderRadius={15}>
@@ -177,8 +177,8 @@ export default function StaySummary() {
 										fullWidth
 										margin="dense"
 										size="medium"
-										name="destination"
-										onInput={handleInputChange}
+										name="locationName"
+										onChange={handleInputChange}
 										value={formValue.locationName}
 									/>
 								</Box>
