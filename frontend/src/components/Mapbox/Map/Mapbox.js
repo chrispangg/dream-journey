@@ -4,16 +4,15 @@ import classes from "./Mapbox.module.css";
 import { AppContext } from '../../../AppContextProvider';
 
 const Mapbox = () => {
-	const [lng, setLng] = useState(-70.9);
-	const [lat, setLat] = useState(42.35);
-	const [zoom, setZoom] = useState(0.5);
-
+	const [lng] = useState(40.7305417121548);
+	const [lat] = useState(34.46896138009291);
+	const [zoom] = useState(0.5);
 
 	const { trips } = useContext(AppContext);
 
 
 	//API token
-	mapboxgl.accessToken = "pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
+	mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
 	useEffect(() => {
 		const center = () =>{
@@ -30,6 +29,7 @@ const Mapbox = () => {
 		const map = new mapboxgl.Map({
 			container: "mapContainer",
 			style: "mapbox://styles/mapbox/streets-v11",
+			// center: center(),
 			center: center(),
 			zoom: zoom,
 		});
