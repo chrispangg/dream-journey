@@ -3,9 +3,9 @@ import styles from "./AddLocationCard.module.css";
 import SearchField from "../Mapbox/SearchField/SearchField";
 import {
 	makeStyles,
-	Card,
+	Paper,
 	CardActions,
-	CardContent,
+	Box,
 	Button,
 	Typography,
 } from "@material-ui/core/";
@@ -42,83 +42,24 @@ const AddLocationCard = () => {
 	});
 	const classes = useStyles();
 
-	const {
-		createTrips,
-	} = useContext(AppContext);
-	const mapboxAccessToken =
-		"pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
-
-	// function handleFetchCoordinator(){
-	// 	console.log("Destination: " + result.destination);
-
-	// 	const locationURI = encodeURIComponent(result.destination);
-	// 	let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place&access_token=${mapboxAccessToken}`;
-
-	// 	const callApi = async () => {
-	// 		try {
-	// 			const response = await axios.get(requestURL);
-	// 			const responseJSON = response.data;
-	// 			const responseFeatures = responseJSON.features;
-	// 			console.log("The name of location is: " + responseFeatures[1].place_name);
-	// 			console.log("The longitude is: " + responseFeatures[1].geometry.coordinates[0]);
-	// 			console.log("The latitude is: " + responseFeatures[1].geometry.coordinates[1]);
-	// 			setResult({ ...result, longitude: responseFeatures[1].geometry.coordinates[0], latitude: responseFeatures[1].geometry.coordinates[1] });
-	// 		} catch(error) {
-	// 			console.log(error.message);
-	// 		}
-	// 	}
-	// 	callApi();
-	// }
+	const { createTrips } = useContext(AppContext);
 
 	async function handleAdd() {
-		console.log("Destination: " + result.destination);
-
-		const locationURI = encodeURIComponent(result.destination);
-		let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place,region&access_token=${mapboxAccessToken}`;
-
-		const callApi = async () => {
-			try {
-				const response = await axios.get(requestURL);
-				const responseJSON = response.data;
-				const responseFeatures = responseJSON.features;
-				console.log(
-					"The name of location is: " + responseFeatures[0].place_name
-				);
-				console.log(
-					"The longitude is: " + responseFeatures[0].geometry.coordinates[0]
-				);
-				console.log(
-					"The latitude is: " + responseFeatures[0].geometry.coordinates[1]
-				);
-				setResult({
-					...result,
-					longitude: responseFeatures[0].geometry.coordinates[0],
-					latitude: responseFeatures[0].geometry.coordinates[1],
-					completed: true
-				});
-			} catch (error) {
-				console.log(error.message);
-			}
-			
-		};
-		callApi();
-
-		
+		console.log("This is what we are adding: " + result);
+		setResult({ ...result, completed: true });
 	}
 
-	useEffect(()=>{
+	useEffect(() => {
 		console.log(result);
-		if(result.completed){
+		if (result.completed) {
 			createTrips({ result });
-			setResult({...result, completed: false});
+			setResult({ ...result, completed: false });
 		}
-		
-	},[result])
-
+	}, [result]);
 
 	return (
-		<Card className={classes.root + " " + styles.card}>
-			<CardContent>
+		<Paper elevation={3} className={classes.root + " " + styles.card}>
+			<Box p={3} borderRadius={10}>
 				<Typography
 					className={classes.title}
 					color="textSecondary"
@@ -126,40 +67,56 @@ const AddLocationCard = () => {
 				>
 					Add Trips
 				</Typography>
-
-				<Typography variant="p">Destination City</Typography>
-
-				<SearchField
-					changed={(e) => {
-						setResult({ ...result, destination: e.target.value });
-					}}
-				/>
-
-				<DatePicker
-					datelabel="start-date"
-					changed={(e) => {
-						let today = new Date(e);
-						let tomorrow = new Date(e);
-						tomorrow.setDate(today.getDate() + 7);
-						setResult({ ...result, startDate: today, endDate: tomorrow });
-						console.log("Date: " + result.startDate);
-						console.log("Location: " + result.destination);
-					}}
-					value={result.startDate}
-				/>
-
-				<DatePicker
-					datelabel="end-date"
-					changed={(e) => setResult({ ...result, endDate: new Date(e) })}
-					value={result.endDate}
-				/>
-			</CardContent>
-			<CardActions>
-				<Button size="large" color="primary" onClick={handleAdd}>
-					Add Trip
-				</Button>
-			</CardActions>
-		</Card>
+				<Box display="flex" alignItems="center">
+					<Box>
+						<SearchField
+							changed={(e) => {
+								// let searchResult = JSON.parse(JSON.stringify(e));
+								setResult({
+									...result,
+									destination: e.destination,
+									longitude: e.longitude,
+									latitude: e.latitude,
+								});
+							}}
+							placeholder="Enter Destination City"
+							types="region,place"
+						/>
+					</Box>
+					<Box width="50%">
+						<DatePicker
+							datelabel="start-date"
+							changed={(e) => {
+								let today = new Date(e);
+								let tomorrow = new Date(e);
+								tomorrow.setDate(today.getDate() + 7);
+								setResult({ ...result, startDate: today, endDate: tomorrow });
+								console.log("Date: " + result.startDate);
+								console.log("Location: " + result.destination);
+							}}
+							value={result.startDate}
+						/>
+					</Box>
+					<Box width="50%">
+						<DatePicker
+							datelabel="end-date"
+							changed={(e) => setResult({ ...result, endDate: new Date(e) })}
+							value={result.endDate}
+						/>
+					</Box>
+				</Box>
+				<Box mt={3} display="flex" pr={3} justifyContent="flex-end">
+					<Button
+						size="large"
+						color="primary"
+						variant="contained"
+						onClick={handleAdd}
+					>
+						Add Trip
+					</Button>
+				</Box>
+			</Box>
+		</Paper>
 	);
 };
 
