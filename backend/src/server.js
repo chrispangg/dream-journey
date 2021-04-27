@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 
   // If we get any GET request we can't process using one of the server routes, serve up index.html by default.
   app.get('*', (req, res) => {
-    console.log("Testing any route");
+    console.log('Testing any route');
     res.sendFile(path.join(__dirname, '../../frontend/build/index.html'));
   });
 }
@@ -37,4 +37,6 @@ if (process.env.NODE_ENV === 'production') {
 // Start the server running. Once the server is running, the given function will be called, which will
 // log a simple message to the server console. Any console.log() statements in your node.js code
 // can be seen in the terminal window used to run the server.
-connectToDatabase().then(() => app.listen(port, () => console.log(`App server listening on port ${port}!`)));
+connectToDatabase().then(() =>
+  app.listen(port, () => console.log(`App server listening on port ${port}!`))
+);

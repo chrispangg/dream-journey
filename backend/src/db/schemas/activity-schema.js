@@ -1,16 +1,23 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
 const activitySchema = new Schema(
-	{
-		//schema here
-	},
-	{
-		timestamps: {},
-	}
+  {
+    tripId: String,
+    activity: String,
+    startDate: Date,
+    endDate: Date,
+    startTime: String,
+    finishTime: String,
+    location: String,
+    notes: String,
+  },
+  {
+    timestamps: {},
+  }
 );
 
-const Activity = mongoose.model("Activity", activitySchema);
+const ActivityModel = mongoose.model('Activity', activitySchema);
 
-export { Activity };
+export { ActivityModel };
