@@ -7,7 +7,8 @@
     "start": "node -r esm ./src/server.js",
     "server": "npm run start",
     "production": "cross-env NODE_ENV=production PORT=3000 node -r esm ./src/server.js",
-    "init-db": "node -r esm ./src/db/init-db-stays.js"
+    "init-db-stays": "node -r esm ./src/db/init-db-stays.js",
+    "init-db-activities": "node -r esm ./src/db/init-db-activities.js"
   },
   "author": "",
   "license": "ISC",
