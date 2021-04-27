@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import ActivitiesMap from '../components/ActivitiesMap/ActivitiesMap.component';
 import CombinedPanel from '../components/CombinedPanel/CombinePanel.component';
 import CombinedSummary from '../components/CombinedSummary/CombinedSummary.component';
-import { TripDetailsContextProvider } from './TripDetailsProvider';
+import {
+  TripDetailsContextProvider,
+  TripDetailsContext,
+} from './TripDetailsProvider';
+import { withRouter } from 'react-router-dom';
 
-const TripDetailsPage = () => {
+const TripDetailsPage = (props) => {
   return (
     <div style={{ height: 2000 }}>
       <TripDetailsContextProvider>
@@ -16,4 +20,4 @@ const TripDetailsPage = () => {
   );
 };
 
-export default TripDetailsPage;
+export default withRouter(TripDetailsPage);

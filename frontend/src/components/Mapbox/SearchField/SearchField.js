@@ -1,27 +1,68 @@
-import React, { useEffect, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import React, { useEffect } from 'react';
+import mapboxgl from 'mapbox-gl';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import axios from 'axios';
 
 const SearchField = (props) => {
-	mapboxgl.accessToken = "pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg";
+  mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
-	useEffect(() => {
-		const geocoder = new MapboxGeocoder({
-			accessToken: mapboxgl.accessToken,
-			// types: "country, region, postcode, district, place, locality, neighborhood, address",
-			types: "region,place",
+  async function handleAdd(e) {
+    const locationURI = encodeURIComponent(e.target.value);
+    let requestURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=place,region&access_token=${mapboxgl.accessToken}`;
 
-		});
-	
-		geocoder.addTo("#geocoder");
-	}, []);
+    const callApi = async () => {
+      let result = null;
 
-	return (
-		<>
-			<div id="geocoder" onBlur={props.changed}></div>
-		</>
-	);
+      try {
+        const response = await axios.get(requestURL);
+        const responseJSON = response.data;
+        const responseFeatures = responseJSON.features;
+
+        result = {
+          destination: e.target.value,
+          longitude: responseFeatures[0].geometry.coordinates[0],
+          latitude: responseFeatures[0].geometry.coordinates[1],
+        };
+      } catch (error) {
+        console.log(error.message);
+      }
+      return result;
+    };
+
+    let resultValues = await callApi();
+    let parseJSONResult = JSON.parse(JSON.stringify(resultValues));
+
+    props.changed(parseJSONResult);
+  }
+
+  useEffect(() => {
+    let types = props.types;
+    if (types === null) {
+      types = 'region, places';
+    }
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      placeholder: props.placeholder,
+      // types: "country, region, postcode, district, place, locality, neighborhood, address",
+      types: types,
+      mode: 'mapbox.places',
+    });
+
+    geocoder.addTo('#geocoder');
+  }, []);
+
+  return (
+    <>
+      {/* <div id="geocoder" onBlur={props.changed} ></div> */}
+      <div
+        id="geocoder"
+        onBlur={async (e) => {
+          await handleAdd(e);
+        }}
+      ></div>
+    </>
+  );
 };
 
 export default SearchField;

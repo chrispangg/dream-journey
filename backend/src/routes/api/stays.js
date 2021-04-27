@@ -20,11 +20,13 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+  const { id: tripId } = req.params;
+
   try {
-    const todo = await staysDao.retrieveTodo(id);
-    if (todo) {
-      res.json(todo);
+    const stays = await staysDao.retrieveStays(tripId);
+
+    if (stays) {
+      res.json(stays);
     } else {
       res.sendStatus(HTTP_NOT_FOUND);
     }

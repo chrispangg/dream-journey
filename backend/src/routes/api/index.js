@@ -10,10 +10,8 @@ const router = express.Router();
 import tripRoute from './trips';
 router.use('/trips', tripRoute);
 
-// import activityRoute from "./activities";
-// router.use("/activities", activityRoute);
-// import activityRoute from './activities';
-// router.use('/activities', activityRoute);
+import activityRoute from './activities';
+router.use('/activities', activityRoute);
 
 import stayRoute from './stays';
 router.use('/stays', stayRoute);

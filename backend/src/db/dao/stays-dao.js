@@ -7,6 +7,12 @@ export async function retrieveAllStays() {
   return await StayModel.find({});
 }
 
+//Retrieve stays based on tripId
+
+export async function retrieveStays(id) {
+  return await StayModel.find({ tripId: id });
+}
+
 //Create a new stay
 export async function createStay(stay) {
   const dbStay = new StayModel(stay);
