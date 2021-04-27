@@ -70,30 +70,17 @@ const AddLocationCard = () => {
 				</Typography>
 				<Box display="flex" alignItems="center">
 					<Box>
-						{/* <SearchField
+						<MUISearch
 							changed={(e) => {
-								// let searchResult = JSON.parse(JSON.stringify(e));
-								setResult({
-									...result,
-									destination: e.destination,
-									longitude: e.longitude,
-									latitude: e.latitude,
-								});
-							}}
-							placeholder="Enter Destination City"
-							types="region,place"
-						/> */}
-						<MUISearch changed={(e) => {
-								// let searchResult = JSON.parse(JSON.stringify(e));
 								setResult({
 									...result,
 									destination: e.place_name,
 									longitude: e.geometry.coordinates[0],
-									latitude: e.geometry.coordinates[1]
+									latitude: e.geometry.coordinates[1],
 								});
 							}}
 							types="region,place"
-							/>
+						/>
 					</Box>
 					<Box width="50%">
 						<DatePicker
