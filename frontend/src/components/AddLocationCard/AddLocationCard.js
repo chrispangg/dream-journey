@@ -66,7 +66,7 @@ const AddLocationCard = () => {
 					color="textSecondary"
 					gutterBottom
 				>
-					Add Trips
+					Add a Trip
 				</Typography>
 				<Box display="flex" alignItems="center">
 					<Box>
