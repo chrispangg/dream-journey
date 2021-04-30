@@ -1,7 +1,6 @@
 import React from 'react';
-import { makeStyles, Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
+import { makeStyles, Card, CardContent, Typography } from '@material-ui/core';
 import styles from "./TripList.module.css"
-import { Link, useLocation } from 'react-router-dom';
 import TripSummary from "../TripSummary/TripSummary.component";
 
 const useStyles = makeStyles({
@@ -17,16 +16,12 @@ const useStyles = makeStyles({
 
 const TripListCard = () => {
     const materialClass = useStyles();
-    const { pathname } = useLocation();
     return (
         <Card className={ materialClass.root + " " + styles.card }>
             <CardContent>
-                <Typography className={ materialClass.title } color="textSecondary" gutterBottom>Trips List</Typography>
+                <Typography className={ materialClass.title } color="textSecondary" gutterBottom>Your Trips</Typography>
                 <TripSummary />
             </CardContent>
-            <CardActions>
-                <Link to={`${pathname}tripdetails`}>Jump to Detailed Page</Link>
-            </CardActions>
         </Card>
     );
 };
