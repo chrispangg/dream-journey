@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
-    "start": "node -r esm ./src/server.js",
+    "start": "set NODE_ENV=development && node -r esm ./src/server.js ",
     "server": "npm run start",
     "production": "cross-env NODE_ENV=production PORT=3000 node -r esm ./src/server.js",
     "init-db-stays": "node -r esm ./src/db/init-db-stays.js",
@@ -15,6 +15,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "mongoose": "^5.12.3"
