@@ -20,6 +20,7 @@ export async function retrieveAllUserTrips(userId) {
       trips.push(trip);
     }
   }
+
   return trips;
 }
 
