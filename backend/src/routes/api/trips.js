@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     startDate: resultBody.startDate,
     endDate: resultBody.endDate,
     userSub: req.user.sub
-  });
+  }, req.user.sub);
   console.log('Add trip: ' + newTrip);
 
   res
@@ -32,10 +32,23 @@ router.get('/', async (req, res) => {
   res.json(await tripsDao.retrieveAllTripsByUser(req.user.sub));
 });
 
-//Retrive all trips (of a user)
+//Retrieve all trips (of a user)
 router.get('/user/:userId', async (req, res) => {
   const { userId } = req.params;
-  res.json(await tripsDao.retrieveAllUserTrips(userId));
+  const trips = await tripsDao.retrieveAllUserTrips(userId);
+  if (trips) {
+    if (trips.userSub !== req.user.sub)
+    {
+      res.sendStatus(400);
+    }
+    else
+    {
+      res.json(trips);
+    }
+  }
+  else {
+    res.sendStatus(HTTP_NOT_FOUND);
+  }
 });
 
 //Retrieve single trip
@@ -57,23 +70,39 @@ router.get('/:tripId', async (req, res) => {
 
 //Update trip
 router.put('/:tripId', async (req, res) => {
-  try {
-    const trip = req.body;
-    const success = await tripsDao.updateTrip(trip);
-    res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
-  } catch {
-    res.sendStatus(400);
+  const { tripId } = req.params;
+  const tripToUpdate = await tripsDao.retrieveTrip(tripId);
+  if (tripToUpdate) {
+    if (tripToUpdate.userSub !== req.user.sub)
+    {
+      res.sendStatus(400);
+    }
+    else
+    {
+      const trip = req.body;
+      const success = await tripsDao.updateTrip(trip);
+      res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
+    }
+  } else {
+    res.sendStatus(HTTP_NOT_FOUND)
   }
 });
 
 // Delete trip
 router.delete('/:tripId', async (req, res) => {
-  try {
-    const { tripId } = req.params;
-    await tripsDao.deleteTrip(tripId);
-    res.sendStatus(HTTP_NO_CONTENT);
-  } catch {
-    res.sendStatus(400);
+  const { tripId } = req.params;
+  const tripDelete = await tripsDao.retrieveTrip(tripId);
+  console.log("tripDelete:" + tripDelete)
+  if (tripDelete) {
+    if (tripDelete.userSub !== req.user.sub) {
+      res.sendStatus(400);
+    } else {
+      await tripsDao.deleteTrip(tripId);
+      res.sendStatus(HTTP_NO_CONTENT);
+    }
+  }
+  else {
+    res.sendStatus(HTTP_NOT_FOUND);
   }
 });
 
