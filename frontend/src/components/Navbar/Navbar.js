@@ -29,18 +29,11 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
+      <Link style={{ textDecoration: 'none', color: 'white' }} to="/" className={classes.title}>
+      <Typography variant="h6" >
           Travelmate
         </Typography>
-        <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
-          <Button color="inherit">Home Page</Button>
-        </Link>
-        <Link
-          style={{ textDecoration: 'none', color: 'white' }}
-          to="/tripdetails"
-        >
-          <Button color="inherit">Trip Details Page</Button>
-        </Link>
+      </Link>
         <AuthenticationButton/>
       </Toolbar>
     </AppBar>

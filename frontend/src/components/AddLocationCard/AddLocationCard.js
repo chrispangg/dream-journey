@@ -13,6 +13,7 @@ import DatePicker from "../../util/DatePicker";
 import dayjs from "dayjs";
 import { AppContext } from "../../AppContextProvider";
 import axios from "axios";
+import MUISearch from "../MUISearch/MUISearch.component";
 
 const useStyles = makeStyles({
 	root: {
@@ -65,21 +66,19 @@ const AddLocationCard = () => {
 					color="textSecondary"
 					gutterBottom
 				>
-					Add Trips
+					Add a Trip
 				</Typography>
 				<Box display="flex" alignItems="center">
 					<Box>
-						<SearchField
+						<MUISearch
 							changed={(e) => {
-								// let searchResult = JSON.parse(JSON.stringify(e));
 								setResult({
 									...result,
-									destination: e.destination,
-									longitude: e.longitude,
-									latitude: e.latitude,
+									destination: e.place_name,
+									longitude: e.geometry.coordinates[0],
+									latitude: e.geometry.coordinates[1],
 								});
 							}}
-							placeholder="Enter Destination City"
 							types="region,place"
 						/>
 					</Box>
