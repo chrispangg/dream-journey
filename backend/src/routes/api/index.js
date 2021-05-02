@@ -14,7 +14,7 @@ var jwtCheck = jwt({
     jwksRequestsPerMinute: 5,
     jwksUri: 'https://dev-nr4vf4rz.au.auth0.com/.well-known/jwks.json'
   }),
-  audience: 'https://todo/api',
+  audience: 'https://travelmate/api',
   issuer: 'https://dev-nr4vf4rz.au.auth0.com/',
   algorithms: ['RS256']
 });

@@ -18,6 +18,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
           redirectUri={window.location.origin}
           onRedirectCallback={onRedirectCallback}
           cacheLocation="localstorage"
+          audience='https://travelmate/api'
       >
         {children}
       </Auth0Provider>

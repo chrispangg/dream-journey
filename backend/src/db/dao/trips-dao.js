@@ -6,6 +6,10 @@ export async function retrieveAllTrips() {
   return await Trip.find();
 }
 
+export async function retrieveAllTripsByUser(userSub) {
+  return await Trip.find({userSub: userSub})
+}
+
 //Retrieve all trips of a user
 export async function retrieveAllUserTrips(userId) {
   const trips = [];

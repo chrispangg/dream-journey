@@ -11,19 +11,14 @@ const router = express.Router();
 //creating a new trip
 router.post('/', async (req, res) => {
   const resultBody = req.body.result;
-  // console.log("Object: " + req.body.result);
-  // console.log("Request: " + req.body.result.destination);
-  // console.log("Longitude: " + req.body.result.longitude);
-  // console.log("Start date: " + req.body.result.startDate);
-  // console.log("End date: " + req.body.result.endDate);
   const newTrip = await tripsDao.createTrip({
     locationName: resultBody.destination,
     longitude: resultBody.longitude,
     latitude: resultBody.latitude,
     startDate: resultBody.startDate,
     endDate: resultBody.endDate,
+    userSub: req.user.sub
   });
-  // console.log("Testing create a new trip");
   console.log('Add trip: ' + newTrip);
 
   res
@@ -34,8 +29,7 @@ router.post('/', async (req, res) => {
 
 // retrieve all trips
 router.get('/', async (req, res) => {
-  console.log('Testing retrieve all trips');
-  res.json(await tripsDao.retrieveAllTrips());
+  res.json(await tripsDao.retrieveAllTripsByUser(req.user.sub));
 });
 
 //Retrive all trips (of a user)

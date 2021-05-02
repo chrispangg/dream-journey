@@ -12,6 +12,7 @@ const staySchema = new Schema(
     latitude: Number,
     location: String,
     notes: String,
+    userSub: String
   },
   {
     timestamps: {},
