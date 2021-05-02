@@ -4,7 +4,7 @@ import { StayModel } from '../schemas/stays-schema';
 //Retrieve all stays
 
 export async function retrieveAllStays() {
-  return await StayModel.find({});
+  return await StayModel.find({userSub: userSub});
 }
 
 //Retrieve stays based on tripId
@@ -14,8 +14,8 @@ export async function retrieveStays(id) {
 }
 
 //Create a new stay
-export async function createStay(stay) {
-  const dbStay = new StayModel(stay);
+export async function createStay(stay, userSub) {
+  const dbStay = new StayModel({...stay, userSub: userSub});
   await dbStay.save();
   return dbStay;
 }
@@ -29,6 +29,7 @@ export async function updateStay(id, stay) {
     dbStay.checkOutDate = stay.checkOutDate;
     dbStay.location = stay.location;
     dbStay.notes = stay.notes;
+    dbStay.userSub = stay.userSub;
     await dbStay.save();
     return true;
   } else {

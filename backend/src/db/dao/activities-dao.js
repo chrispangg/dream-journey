@@ -4,7 +4,7 @@ import { ActivityModel } from '../schemas/activity-schema';
 //Retrieve all activities
 
 export async function retrieveAllActivities() {
-  return await ActivityModel.find({});
+  return await ActivityModel.find({userSub: userSub});
 }
 
 export async function retrieveActivities(id) {
@@ -12,8 +12,8 @@ export async function retrieveActivities(id) {
 }
 
 //Create a new activity
-export async function createActivity(activity) {
-  const dbActivity = new ActivityModel(activity);
+export async function createActivity(activity, userSub) {
+  const dbActivity = new ActivityModel({...activity, userSub:userSub});
   await dbActivity.save();
   return dbActivity;
 }

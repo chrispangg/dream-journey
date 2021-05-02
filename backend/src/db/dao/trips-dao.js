@@ -20,7 +20,6 @@ export async function retrieveAllUserTrips(userId) {
       trips.push(trip);
     }
   }
-
   return trips;
 }
 
@@ -32,7 +31,7 @@ export async function retrieveTrip(tripId) {
 
 //Create a new trip
 export async function createTrip(trip, userSub) {
-  //trip should includes the userId
+  //trip should includes the userId and sub
   const dbTrip = new Trip({...trip, userSub: userSub});
   await dbTrip.save();
   return dbTrip;
