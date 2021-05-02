@@ -11,7 +11,8 @@ const userSchema = new Schema({
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
 	email: String,
-	addedTrips: [{ type: Schema.Types.ObjectId, ref: 'Trip' }]
+	addedTrips: [{ type: Schema.Types.ObjectId, ref: 'Trip' }],
+	userSub: String
 }, {
 	timestamps: {}
 });
