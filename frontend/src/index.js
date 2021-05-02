@@ -6,12 +6,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Auth0ProviderWithHistory from './components/Auth/Auth0ProviderWithHistory';
 
 ReactDOM.render(
-  <AppContextProvider>
-    <Router>
-      <Auth0ProviderWithHistory>
+    <Auth0ProviderWithHistory>
+      <AppContextProvider>
+       <Router>
         <App />
-      </Auth0ProviderWithHistory>
-    </Router>
-  </AppContextProvider>,
+       </Router>
+      </AppContextProvider>
+    </Auth0ProviderWithHistory>,
   document.getElementById('root')
 );
