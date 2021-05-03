@@ -17,7 +17,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import SearchField from "../Mapbox/SearchField/SearchField";
 
 const useStyles = makeStyles({
 	table: {
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function StaySummary() {
+export default function TripSummary() {
 	const classes = useStyles();
 
 	const { trips, isLoading, deleteTrips, updateTrips } = useContext(AppContext);

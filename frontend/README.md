@@ -91,7 +91,7 @@ $npm install
     $npm start
     ```
 
-The web application will now run in your default browser at: [http://localhost:3000/](http://localhost:3000/) (frontend) and [http://localhost:3001/](http://localhost:3000/) (backend).
+The web application will now run in your default browser at: [http://localhost:3000/](http://localhost:3000/) (frontend) and [http://localhost:3001/](http://localhost:3001/) (backend).
 
 ## Website Features
 
