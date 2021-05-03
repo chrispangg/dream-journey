@@ -2,6 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import useGet from '../hooks/useGet';
 import axios from 'axios';
 import { useRouteMatch } from 'react-router-dom';
+import {useAuth0} from "@auth0/auth0-react";
+import useAccessToken from "../hooks/useAccessToken";
+import sendRequestWithAuth from "../libs/requestLib";
+
 
 const TripDetailsContext = React.createContext({
   stays: [],
@@ -13,6 +17,8 @@ const TripDetailsContext = React.createContext({
 function TripDetailsContextProvider({ children }) {
   const match = useRouteMatch();
   const tripId = match.params.id;
+
+  const { getAccessToken } = useAccessToken();
 
   // Set up the app to fetch stays from a REST API
 
@@ -33,7 +39,8 @@ function TripDetailsContextProvider({ children }) {
   const [selectedLocation, SetSelectedLocation] = useState(null);
 
   async function addStay(stay) {
-    await axios.post('/api/stays', stay);
+    const token = await getAccessToken();
+    await sendRequestWithAuth('POST', '/api/stays', stay, token)
     refetch();
   }
 

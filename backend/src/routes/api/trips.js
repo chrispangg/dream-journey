@@ -54,15 +54,15 @@ router.get('/user/:userId', async (req, res) => {
 //Retrieve single trip
 router.get('/:tripId', async (req, res) => {
   const { tripId } = req.params;
-  const trips = await tripsDao.retrieveAllUserTrips(tripId);
-  if (trips) {
-    if (trips.userSub !== req.user.sub)
+  const trip = await tripsDao.retrieveTrip(tripId);
+  if (trip) {
+    if (trip.userSub !== req.user.sub)
     {
       res.sendStatus(400);
     }
     else
     {
-      res.json(trips);
+      res.json(trip);
     }
   }
   else {

@@ -1,5 +1,6 @@
 import express from 'express';
 import * as staysDao from '../../db/dao/stays-dao';
+import * as tripsDao from "../../db/dao/trips-dao";
 
 // const HTTP_OK = 200; // Not really needed; this is the default if you don't set something else.
 const HTTP_CREATED = 201;
@@ -21,21 +22,24 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id: tripId } = req.params;
-  const stays = await staysDao.retrieveStays(tripId);
-  if (stays) {
-    if (stays.userSub !== req.user.sub)
-    {
-      res.json('Error Id is not valid');
+  const trip = await tripsDao.retrieveTrip(tripId);
+
+  if (trip) {
+    if (trip.userSub === req.user.sub) {
+      const stays = await staysDao.retrieveStays(tripId);
+      if (stays) {
+        res.json(stays);
+      } else
+      {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(401);
     }
-    else
-    {
-      res.json(stays);
-    }
-  }
-  else
-  {
+  } else {
     res.sendStatus(HTTP_NOT_FOUND);
   }
+
 });
 
 router.put('/:id', async (req, res) => {
