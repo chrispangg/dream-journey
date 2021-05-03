@@ -27,6 +27,7 @@ export default function useCrud(baseURL, initialState = null, idProp = '_id') {
       }
     }
 
+
   useEffect(() => {
         console.log("Calling useEffect in useCrud")
         const makeRequest = async () => {

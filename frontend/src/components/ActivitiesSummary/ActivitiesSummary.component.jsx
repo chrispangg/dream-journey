@@ -156,7 +156,7 @@ export default function ActivitiesSummary() {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Stay Details</DialogTitle>
+        <DialogTitle id="form-dialog-title">Activity Details</DialogTitle>
         <DialogContent>
           <Container maxWidth="md">
             <Box p={3} borderRadius={15}>
