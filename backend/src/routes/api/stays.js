@@ -46,39 +46,39 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const trip = await tripsDao.retrieveTrip(tripId);
+  const stayInfo = await staysDao.retrieveStayByStayId(id);
 
-  if (!trip) {
+  if (!stayInfo) {
     res.sendStatus(HTTP_NOT_FOUND);
     return
   }
 
-  if (trip.userSub !== req.user.sub) {
+  if (stayInfo.userSub !== req.user.sub) {
     res.sendStatus(401);
     return
   }
 
-  const response = res.json(await staysDao.updateStay(id, req.body));
-  res.sendStatus(response ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
-
+  const stay = req.body;
+  const success = await staysDao.updateStay(stay);
+  res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
 });
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const trip = await tripsDao.retrieveTrip(id);
+  const stayInfo = await staysDao.retrieveStayByStayId(id);
 
-  if (!trip) {
+  if (!stayInfo) {
     res.sendStatus(HTTP_NOT_FOUND);
     return
   }
 
-  if (trip.userSub !== req.user.sub) {
+  if (stayInfo.userSub !== req.user.sub) {
     res.sendStatus(401);
     return
   }
 
-  const response = await staysDao.deleteStay(id);
-  res.json(response);
+  await staysDao.deleteStay(id);
+  res.sendStatus(HTTP_NO_CONTENT);
 });
 
 export default router;

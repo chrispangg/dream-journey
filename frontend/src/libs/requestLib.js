@@ -15,6 +15,5 @@ export default async function sendRequestWithAuth (method, url, data, token, set
       })
       .catch(err => {
         setIsLoading && setIsLoading(false);
-        console.log("request failed:" + err)
       });
 }

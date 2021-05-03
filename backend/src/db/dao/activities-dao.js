@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { ActivityModel } from '../schemas/activity-schema';
+import {StayModel} from "../schemas/stays-schema";
 
 //Retrieve all activities
 
@@ -18,22 +19,19 @@ export async function createActivity(activity, userSub) {
   return dbActivity;
 }
 
+// Retrieve an activity by activity Id for Auth
+export async function retrieveActivityByActivityId (id) {
+  return await ActivityModel.findById(id)
+}
+
 //Update activity details
-export async function updateActivity(id, activity) {
-  const dbActivity = await ActivityModel.findOne({ _id: id });
-  if (dbActivity) {
-    dbActivity.activity = activity.activity;
-    dbActivity.startDate = activity.startDate;
-    dbActivity.endDate = activity.endDate;
-    dbActivity.startTime = activity.startTime;
-    dbActivity.finishTime = activity.finishTime;
-    dbActivity.location = activity.location;
-    dbActivity.notes = activity.notes;
-    await dbActivity.save();
-    return true;
-  } else {
-    return false;
-  }
+export async function updateActivity(activity) {
+  const result = await ActivityModel.findByIdAndUpdate(activity._id, activity, {
+    new: true,
+    useFindAndModify: false,
+  });
+
+  return result ? true : false;
 }
 
 //Delete Activity based on id

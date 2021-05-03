@@ -1,6 +1,7 @@
 import express from 'express';
 import * as activitiesDao from '../../db/dao/activities-dao';
 import * as tripsDao from "../../db/dao/trips-dao";
+import * as staysDao from "../../db/dao/stays-dao";
 
 // const HTTP_OK = 200; // Not really needed; this is the default if you don't set something else.
 const HTTP_CREATED = 201;
@@ -40,25 +41,37 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-      const {id} = req.params;
-      const trip = await tripsDao.retrieveTrip(tripId);
+      const { id } = req.params;
+      const activityInfo = await activitiesDao.retrieveActivityByActivityId(id);
 
-      if (!trip) {
+      if (!activityInfo) {
         res.sendStatus(HTTP_NOT_FOUND);
         return
       }
 
-      if (trip.userSub !== req.user.sub) {
+      if (activityInfo.userSub !== req.user.sub) {
         res.sendStatus(401);
         return
       }
 
-      const response = res.json(await activitiesDao.updateActivity(id, req.body));
-      res.sendStatus(response ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
+      const activity = req.body;
+      const success = await activitiesDao.updateActivity(activity);
+      res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
 });
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
+  const activityInfo = await activitiesDao.retrieveActivityByActivityId(id);
+
+  if (!activityInfo) {
+    res.sendStatus(HTTP_NOT_FOUND);
+    return
+  }
+
+  if (activityInfo.userSub !== req.user.sub) {
+    res.sendStatus(401);
+    return
+  }
 
   const response = await activitiesDao.deleteActivity(id);
   res.json(response);

@@ -94,7 +94,7 @@ router.put('/:tripId', async (req, res) => {
 router.delete('/:tripId', async (req, res) => {
   const { tripId } = req.params;
   const tripDelete = await tripsDao.retrieveTrip(tripId);
-  console.log("tripDelete:" + tripDelete)
+
   if (tripDelete) {
     if (tripDelete.userSub !== req.user.sub) {
       res.sendStatus(400);
