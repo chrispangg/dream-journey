@@ -8,6 +8,7 @@ const tripSchema = new Schema({
 	latitude: { type: String, required: true },
 	startDate: { type: Date, required: true },
 	endDate: { type: Date, required: true },
+	userSub: String
 }, {
 	timestamps: {}
 });
