@@ -24,57 +24,61 @@ router.get('/:id', async (req, res) => {
   const { id: tripId } = req.params;
   const trip = await tripsDao.retrieveTrip(tripId);
 
-  if (trip) {
-    if (trip.userSub === req.user.sub) {
-      const stays = await staysDao.retrieveStays(tripId);
-      if (stays) {
-        res.json(stays);
-      } else
-      {
-        res.sendStatus(404);
-      }
-    } else {
-      res.sendStatus(401);
-    }
-  } else {
+  if (!trip) {
     res.sendStatus(HTTP_NOT_FOUND);
+    return
   }
+
+  if (trip.userSub !== req.user.sub) {
+    res.sendStatus(401);
+    return
+  }
+
+  const stays = await staysDao.retrieveStays(tripId);
+  if (!stays) {
+    res.sendStatus(HTTP_NOT_FOUND);
+    return
+  }
+
+  res.json(stays);
 
 });
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const stayToUpdate = await staysDao.retrieveStays(id);
-  if (stayToUpdate) {
-    if (stayToUpdate.userSub !== req.user.sub)
-    {
-      res.sendStatus(400);
-    }
-    else
-    {
-      const response = res.json(await staysDao.updateStay(id, req.body));
-      res.sendStatus(response ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
-    }
-  } else
-  {
-    res.sendStatus(HTTP_NOT_FOUND)
+  const trip = await tripsDao.retrieveTrip(tripId);
+
+  if (!trip) {
+    res.sendStatus(HTTP_NOT_FOUND);
+    return
   }
+
+  if (trip.userSub !== req.user.sub) {
+    res.sendStatus(401);
+    return
+  }
+
+  const response = res.json(await staysDao.updateStay(id, req.body));
+  res.sendStatus(response ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
+
 });
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const stayDelete = await staysDao.retrieveStays(id);
-  if (stayDelete) {
-    if (stayDelete.userSub !== req.user.sub)
-    {
-      res.sendStatus(400);
-    } else {
-      const response = await staysDao.deleteStay(id);
-      res.json(response);
-    }
-  } else {
+  const trip = await tripsDao.retrieveTrip(id);
+
+  if (!trip) {
     res.sendStatus(HTTP_NOT_FOUND);
+    return
   }
+
+  if (trip.userSub !== req.user.sub) {
+    res.sendStatus(401);
+    return
+  }
+
+  const response = await staysDao.deleteStay(id);
+  res.json(response);
 });
 
 export default router;
