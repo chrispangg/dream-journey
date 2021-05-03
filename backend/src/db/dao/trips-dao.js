@@ -6,6 +6,10 @@ export async function retrieveAllTrips() {
   return await Trip.find();
 }
 
+export async function retrieveAllTripsByUser(userSub) {
+  return await Trip.find({userSub: userSub})
+}
+
 //Retrieve all trips of a user
 export async function retrieveAllUserTrips(userId) {
   const trips = [];
@@ -22,13 +26,14 @@ export async function retrieveAllUserTrips(userId) {
 
 // Retrieve trip details
 export async function retrieveTrip(tripId) {
-  return await Trip.findOne({ _id: tripId });
+  //return await Trip.findOne({ _id: tripId });
+  return await Trip.findById(tripId);
 }
 
 //Create a new trip
-export async function createTrip(trip) {
+export async function createTrip(trip, userSub) {
   //trip should includes the userId
-  const dbTrip = new Trip(trip);
+  const dbTrip = new Trip({...trip, userSub: userSub});
   await dbTrip.save();
   return dbTrip;
 }
