@@ -90,12 +90,10 @@ export default function TripSummary() {
 								End Date
 							</TableCell>
 							<TableCell align="center" width="10%">
-								{" "}
-								Edit/ Delete{" "}
+								Edit/ Delete
 							</TableCell>
 							<TableCell align="center" width="10%">
-								{" "}
-								View{" "}
+								View
 							</TableCell>
 						</TableRow>
 					</TableHead>
@@ -180,9 +178,8 @@ export default function TripSummary() {
 										name="locationName"
 										onChange={handleInputChange}
 										value={formValue.locationName}
-										disabled = "true"
+										disabled="true"
 									/>
-									
 								</Box>
 							</Box>
 							<Box display="flex" alignItems="center">

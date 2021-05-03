@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./AddLocationCard.module.css";
-// import SearchField from "../Mapbox/SearchField/SearchField";
 import {
 	makeStyles,
 	Paper,
