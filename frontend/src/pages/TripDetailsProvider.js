@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import useGet from '../hooks/useGet';
-import axios from 'axios';
 import { useRouteMatch } from 'react-router-dom';
-import {useAuth0} from "@auth0/auth0-react";
 import useAccessToken from "../hooks/useAccessToken";
 import sendRequestWithAuth from "../libs/requestLib";
 
@@ -18,6 +16,7 @@ function TripDetailsContextProvider({ children }) {
   const match = useRouteMatch();
   const tripId = match.params.id;
 
+  // get access token from hook
   const { getAccessToken } = useAccessToken();
 
   // Set up the app to fetch stays from a REST API

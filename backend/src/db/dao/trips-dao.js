@@ -26,7 +26,6 @@ export async function retrieveAllUserTrips(userId) {
 
 // Retrieve trip details
 export async function retrieveTrip(tripId) {
-  //return await Trip.findOne({ _id: tripId });
   return await Trip.findById(tripId);
 }
 
@@ -40,10 +39,6 @@ export async function createTrip(trip, userSub) {
 
 //Update Trip details
 export async function updateTrip(trip) {
-  // const dbTrip = await Trip.findById(trip._id);
-  // if (dbTrip) {
-  //   //save the trip based on it's schema
-  //   await dbTodo.save();
   const result = await Trip.findByIdAndUpdate(trip._id, trip, {
     new: true,
     useFindAndModify: false,
