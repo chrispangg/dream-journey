@@ -7,7 +7,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { TripDetailsContext } from '../../pages/TripDetailsProvider';
 
 const ActivitiesMap = () => {
-  let { tripLongLat, stays, selectedLocation } = useContext(TripDetailsContext);
+  let { tripLongLat, stays, activities, selectedLocation } = useContext(
+    TripDetailsContext
+  );
   mapboxgl.accessToken =
     'pk.eyJ1IjoiY2hyaXNwYW5nZyIsImEiOiJja21jcjV2dXEwYWh2MnlteHF3cDJnaDRjIn0.9lg7qto5g9NlZ-SLg5NvEg';
   const classes = useStyles();
@@ -15,7 +17,7 @@ const ActivitiesMap = () => {
   const geocoderContainer = useRef(null);
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(12);
+  const [zoom, setZoom] = useState(10);
   const [tripLocation, setTripLocation] = useState(true);
 
   useEffect(() => {
@@ -52,6 +54,14 @@ const ActivitiesMap = () => {
     stays.map((stay) => {
       let longlat = [stay.longitude, stay.latitude];
       let newMarker = new mapboxgl.Marker({ color: '#119415' }).setLngLat(
+        longlat
+      );
+      newMarker.addTo(map);
+    });
+
+    activities.map((activity) => {
+      let longlat = [activity.longitude, activity.latitude];
+      let newMarker = new mapboxgl.Marker({ color: '#112094' }).setLngLat(
         longlat
       );
       newMarker.addTo(map);

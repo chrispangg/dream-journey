@@ -230,6 +230,16 @@ const AddStayPanel = () => {
           color="primary"
           onClick={() => {
             addStay(stay);
+            SetStay({
+              tripId: tripId,
+              hotel: '',
+              checkInDate: '2021-04-01',
+              checkOutDate: '2021-04-02',
+              longitude: null,
+              latitude: null,
+              location: '',
+              notes: '',
+            });
           }}
         >
           ADD STAY
