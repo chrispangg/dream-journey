@@ -143,6 +143,7 @@ export default function StaySummary() {
     setOpenWarning(false);
   };
 
+  console.log("Stays is " + stays);
   return (
     <div>
       <TableContainer component={Paper}>
@@ -164,7 +165,8 @@ export default function StaySummary() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stays.map((stay) => (
+            {
+              stays.map((stay) => (
               <TableRow key={stay._id}>
                 <TableCell component="th" scope="row">
                   {stay.hotel}

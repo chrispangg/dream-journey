@@ -54,56 +54,59 @@ router.get('/user/:userId', async (req, res) => {
 //Retrieve single trip
 router.get('/:tripId', async (req, res) => {
   const { tripId } = req.params;
-  let trip = null;
-  try {
-    trip = await tripsDao.retrieveTrip(tripId);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(400);
-  }
-  if (trip) {
-    res.json(trip);
-  } else {
+  const trip = await tripsDao.retrieveTrip(tripId);
+
+  if (!trip) {
     res.sendStatus(HTTP_NOT_FOUND);
+    return;
   }
+
+  if (trip.userSub !== req.user.sub){
+    res.sendStatus(401);
+    return;
+  }
+
+  res.json(trip);
+
 });
 
 //Update trip
 router.put('/:tripId', async (req, res) => {
   const { tripId } = req.params;
   const tripToUpdate = await tripsDao.retrieveTrip(tripId);
-  if (tripToUpdate) {
-    if (tripToUpdate.userSub !== req.user.sub)
-    {
-      res.sendStatus(400);
-    }
-    else
-    {
-      const trip = req.body;
-      const success = await tripsDao.updateTrip(trip);
-      res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
-    }
-  } else {
-    res.sendStatus(HTTP_NOT_FOUND)
+
+  if (!tripToUpdate) {
+    res.sendStatus(HTTP_NOT_FOUND);
+    return;
   }
+
+  if (tripToUpdate.userSub !== req.user.sub) {
+    res.sendStatus(401);
+    return;
+  }
+
+  const trip = req.body;
+  const success = await tripsDao.updateTrip(trip);
+  res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
 });
 
 // Delete trip
 router.delete('/:tripId', async (req, res) => {
   const { tripId } = req.params;
   const tripDelete = await tripsDao.retrieveTrip(tripId);
-  console.log("tripDelete:" + tripDelete)
-  if (tripDelete) {
-    if (tripDelete.userSub !== req.user.sub) {
-      res.sendStatus(400);
-    } else {
-      await tripsDao.deleteTrip(tripId);
-      res.sendStatus(HTTP_NO_CONTENT);
-    }
-  }
-  else {
+
+  if (!tripDelete) {
     res.sendStatus(HTTP_NOT_FOUND);
+    return;
   }
+
+  if (tripDelete.userSub !== req.user.sub) {
+    res.sendStatus(401);
+    return;
+  }
+
+  await tripsDao.deleteTrip(tripId);
+  res.sendStatus(HTTP_NO_CONTENT);
 });
 
 export default router;

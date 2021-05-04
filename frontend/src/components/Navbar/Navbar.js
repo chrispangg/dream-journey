@@ -9,7 +9,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import AuthenticationButton from "../Auth/AuthenticationButton";
+import AuthenticationButton from '../Auth/AuthenticationButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,12 +29,14 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-      <Link style={{ textDecoration: 'none', color: 'white' }} to="/" className={classes.title}>
-      <Typography variant="h6" >
-          Travelmate
-        </Typography>
-      </Link>
-        <AuthenticationButton/>
+        <Link
+          style={{ textDecoration: 'none', color: 'white' }}
+          to="/"
+          className={classes.title}
+        >
+          <Typography variant="h6">DreamJourney</Typography>
+        </Link>
+        <AuthenticationButton />
       </Toolbar>
     </AppBar>
   );

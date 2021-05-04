@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import useGet from '../hooks/useGet';
-import axios from 'axios';
 import { useRouteMatch } from 'react-router-dom';
+import useAccessToken from "../hooks/useAccessToken";
+import sendRequestWithAuth from "../libs/requestLib";
+
 
 const TripDetailsContext = React.createContext({
   stays: [],
@@ -13,6 +15,9 @@ const TripDetailsContext = React.createContext({
 function TripDetailsContextProvider({ children }) {
   const match = useRouteMatch();
   const tripId = match.params.id;
+
+  // get access token from hook
+  const { getAccessToken } = useAccessToken();
 
   // Set up the app to fetch stays from a REST API
 
@@ -33,32 +38,38 @@ function TripDetailsContextProvider({ children }) {
   const [selectedLocation, SetSelectedLocation] = useState(null);
 
   async function addStay(stay) {
-    await axios.post('/api/stays', stay);
+    const token = await getAccessToken();
+    await sendRequestWithAuth('POST', '/api/stays', stay, token);
     refetch();
   }
 
   async function deleteStay(stayId) {
-    await axios.delete(`/api/stays/${stayId}`);
+    const token = await getAccessToken();
+    await sendRequestWithAuth('DELETE', `/api/stays/${stayId}`, null, token);
     refetch();
   }
 
   async function updateStay(stay) {
-    await axios.put(`/api/stays/${stay._id}`, stay);
+    const token = await getAccessToken();
+    await sendRequestWithAuth('PUT', `/api/stays/${stay._id}`, stay, token);
     refetch();
   }
 
   async function addActivity(activity) {
-    await axios.post('/api/activities', activity);
+    const token = await getAccessToken();
+    await sendRequestWithAuth('POST', '/api/activities', activity, token);
     refetchActivities();
   }
 
   async function deleteActivity(activityId) {
-    await axios.delete(`/api/activities/${activityId}`);
+    const token = await getAccessToken();
+    await sendRequestWithAuth('DELETE', `/api/activities/${activityId}`, null, token);
     refetchActivities();
   }
 
   async function updateActivity(activity) {
-    await axios.put(`/api/activities/${activity._id}`, activity);
+    const token = await getAccessToken();
+    await sendRequestWithAuth('PUT', `/api/activities/${activity._id}`, activity, token);
     refetchActivities();
   }
 
