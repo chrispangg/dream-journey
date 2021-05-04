@@ -55,6 +55,7 @@ const AddStayPanel = () => {
         const locationURI = encodeURIComponent(input.input);
         const tripLocation = input.tripLocation;
         console.log(tripLocation);
+
         const response = await axios.get(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?limit=7&types=country,place,region,poi,neighborhood,locality,address&access_token=${
             mapboxgl.accessToken
@@ -229,6 +230,16 @@ const AddStayPanel = () => {
           color="primary"
           onClick={() => {
             addStay(stay);
+            SetStay({
+              tripId: tripId,
+              hotel: '',
+              checkInDate: '2021-04-01',
+              checkOutDate: '2021-04-02',
+              longitude: null,
+              latitude: null,
+              location: '',
+              notes: '',
+            });
           }}
         >
           ADD STAY

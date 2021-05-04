@@ -16,8 +16,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import dayjs from 'dayjs';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import mapboxgl from 'mapbox-gl';
+import throttle from 'lodash/throttle';
+import axios from 'axios';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
@@ -25,19 +32,77 @@ const useStyles = makeStyles({
     width: 70,
     height: 27,
   },
-});
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2),
+  },
+}));
 
 export default function ActivitiesSummary() {
   const classes = useStyles();
+
+  mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
+
+  const [value, setValue] = React.useState(null);
+  const [inputValue, setInputValue] = React.useState('');
+  const [options, setOptions] = React.useState([]);
+
+  const fetch = React.useMemo(
+    () =>
+      throttle(async (input, callback) => {
+        const locationURI = encodeURIComponent(input.input);
+        const tripLocation = input.tripLocation;
+        console.log(tripLocation);
+        const response = await axios.get(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?limit=7&types=country,place,region,poi,neighborhood,locality,address&access_token=${
+            mapboxgl.accessToken
+          }&proximity=${encodeURIComponent(
+            tripLocation[0].toString()
+          )},${encodeURIComponent(tripLocation[1].toString())}`
+        );
+        console.log(response);
+        callback(response.data.features);
+      }, 200),
+    []
+  );
+
+  React.useEffect(() => {
+    let active = true;
+
+    if (inputValue === '') {
+      setOptions(value ? [value] : []);
+      return undefined;
+    }
+
+    fetch({ input: inputValue, tripLocation: tripLongLat }, (results) => {
+      console.log(results);
+      if (active) {
+        let newOptions = [];
+        if (value) {
+          newOptions = [value];
+        }
+        if (results) {
+          newOptions = [...newOptions, ...results];
+        }
+        setOptions(newOptions);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [value, inputValue, fetch]);
 
   const {
     activities,
     isActivitiesLoading,
     deleteActivity,
     updateActivity,
+    tripLongLat,
+    SetSelectedLocation,
   } = useContext(TripDetailsContext);
 
-  const [stayId, setStayId] = useState(null);
+  const [activityId, setActivityId] = useState(null);
 
   const [formValue, setFormValue] = useState({});
 
@@ -47,7 +112,7 @@ export default function ActivitiesSummary() {
 
   const handleWarningClickOpen = (id) => {
     setOpenWarning(true);
-    setStayId(id);
+    setActivityId(id);
   };
 
   const handleWarningClose = () => {
@@ -74,7 +139,7 @@ export default function ActivitiesSummary() {
   };
 
   const handleDelete = () => {
-    deleteActivity(stayId);
+    deleteActivity(activityId);
     setOpenWarning(false);
   };
 
@@ -156,7 +221,7 @@ export default function ActivitiesSummary() {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Stay Details</DialogTitle>
+        <DialogTitle id="form-dialog-title">Activity Details</DialogTitle>
         <DialogContent>
           <Container maxWidth="md">
             <Box p={3} borderRadius={15}>
@@ -249,15 +314,58 @@ export default function ActivitiesSummary() {
 
               <Box display="flex" alignItems="center">
                 <Box width="100%">
-                  <TextField
-                    label="Location"
-                    variant="outlined"
-                    fullWidth
-                    margin="dense"
-                    size="medium"
-                    name="location"
-                    onChange={handleInputChange}
-                    value={formValue.location}
+                  <Autocomplete
+                    width="100%"
+                    getOptionLabel={(option) => option.text}
+                    filterOptions={(x) => x}
+                    options={options}
+                    autoComplete
+                    includeInputInList
+                    filterSelectedOptions
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setOptions(newValue ? [newValue, ...options] : options);
+                      setValue(newValue);
+                      if (newValue !== null) {
+                        setFormValue({
+                          ...formValue,
+                          location: newValue.place_name,
+                          longitude: newValue.geometry.coordinates[0],
+                          latitude: newValue.geometry.coordinates[1],
+                        });
+                        SetSelectedLocation(newValue.geometry.coordinates);
+                      }
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        margin="dense"
+                        size="medium"
+                        label="Add a location"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    )}
+                    renderOption={(option) => {
+                      return (
+                        <Grid container alignItems="center">
+                          <Grid item>
+                            <LocationOnIcon className={classes.icon} />
+                          </Grid>
+                          <Grid item xs>
+                            <span key={option.id} style={{ fontWeight: 700 }}>
+                              {option.text}
+                            </span>
+                            <Typography variant="body2" color="textSecondary">
+                              {option.place_name}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      );
+                    }}
                   />
                 </Box>
               </Box>
