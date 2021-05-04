@@ -10,9 +10,11 @@ const activitySchema = new Schema(
     endDate: Date,
     startTime: String,
     finishTime: String,
+    longitude: Number,
+    latitude: Number,
     location: String,
     notes: String,
-    userSub: String
+    userSub: String,
   },
   {
     timestamps: {},
