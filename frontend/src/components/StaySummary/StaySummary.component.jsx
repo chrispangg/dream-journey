@@ -143,7 +143,6 @@ export default function StaySummary() {
     setOpenWarning(false);
   };
 
-  console.log("Stays is " + stays);
   return (
     <div>
       <TableContainer component={Paper}>
