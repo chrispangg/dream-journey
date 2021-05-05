@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./AddLocationCard.module.css";
-import SearchField from "../Mapbox/SearchField/SearchField";
 import {
 	makeStyles,
 	Paper,
@@ -12,7 +11,7 @@ import {
 import DatePicker from "../../util/DatePicker";
 import dayjs from "dayjs";
 import { AppContext } from "../../AppContextProvider";
-import axios from "axios";
+// import axios from "axios";
 import MUISearch from "../MUISearch/MUISearch.component";
 
 const useStyles = makeStyles({
