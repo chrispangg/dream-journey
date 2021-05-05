@@ -1,4 +1,4 @@
-# Travelmate / Dream Journal
+# DreamJourney / Dream Journal
 
 ---
 
@@ -6,18 +6,13 @@
 
 ---
 
-Travelmate is a web application that allows users to log their travel destination and their respective stay location and travel activities.
+DreamJourney is a web application that allows users to log their travel destination and their respective stay location and travel activities.
 
-![HomePage](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b64bc4ed-3739-421d-9fd5-ae344ab2d32b/Screen_Shot_2021-04-25_at_8.49.41_AM.png)
+<img src="./README-images/img1.png" width="50%">
 
 ## Quick Start Guide
 
 ---
-
-The service is available online at
-
-- Landing Page: [https://travelmate.unicornplatform.page/](https://travelmate.unicornplatform.page/)
-- Home Page: [//to](//to) be added by Jerry
 
 To run the application locally, you are required to have an account with two service providers:
 
@@ -29,7 +24,7 @@ To run the application locally, you are required to have an account with two ser
 
 - Once you have created a new account, please create a new project.
 - Note down the **Domain** and **Client ID**
-- Set Allowed Callback URLs, Allowed Logout URLs and Allowed Web Origins to [http://localhost:300](http://localhost:3000/)0 ← This is what we used for our react localhost. If you are planning to run the react application on a different port, please change it accordingly.
+- Set Allowed Callback URLs, Allowed Logout URLs and Allowed Web Origins to http://localhost:3000 ← This is what we used for our react localhost. If you are planning to run the react application on a different port, please change it accordingly.
 - Please also create a new API and create your **identifier**. Make a note of your Identifier as it's required to run our platform locally.
 
 ### Mapbox:
@@ -62,8 +57,9 @@ DEFAULT_CONNECTION_STRING=**mongodb+srv://your_username:your_password@your_mongo
 
 DOMAIN=**your_auth0_domain**
 AUDIENCE=**your_auth0_api_identifier**
-
 ```
+
+For a quick start, we have included a .env.example file which you can simply copy and paste to your own .env files. The .env.example file is available for both the frontend and backend.
 
 ### Install the dependencies
 
@@ -107,23 +103,39 @@ Immediately you will find yourself on the Auth0 login page. The user must log in
 
 Upon loading, you will see a map that contains markers of all the destinations you have saved. To add a new marker, head to the "Add Trip" section, type in the destination, start date and end date of the trip. This will also add the trip to the "Trips List" section of the page, where you can edit, delete or view the trip. Clicking "view" will redirect you to the trip details page, where you can enter the activities and stay locations for the particular trip.
 
-![Home Page](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9751dbc0-4e95-4cba-9bc9-eacff72f3a47/Screen_Shot_2021-04-30_at_9.53.52_AM.png)
+<img src="./README-images/img2.png" width="50%">
+
 
 ### View Activity/ Stay
 
 Here you will see all the activities and stay details of the specific trip. This allows you to plan your trip ahead of time and give you a good glance at all the places you will be visiting during the trip. To add an activity or stay, click on the activity or stay tab and enter the location and travel details. Once added, the page will display the details in the summary tab, and a marker will appear on the map. Similar to trips, the user can also change or delete the activity/ trip by clicking the "edit" or "delete" button, respectively.
 
-![Activity/Stay Page](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/25f2eea4-4e35-4359-a85d-9aa04a7da978/Screen_Shot_2021-04-30_at_9.56.38_AM.png)
+<img src="./README-images/img3.png" width="50%">
+
+
+Map that show all the activities and stay locations within the selected trip
+
+<img src="./README-images/img4.png" width="50%">
+
+
+Add stay and add location panel
+
+<img src="./README-images/img5.png" width="50%">
+
+
+See a summary of all your activities and stay locations all in one place
 
 ### Search Field AutoComplete
 
 A list of auto-generated interest points will display as you type in the destination on the search field. This is implemented for all search fields and is tailored to the specific location type. For example, adding a destination on the home page will only show regions and cities. This allows users to quickly find the destination they after and also increase the accuracy of the coordinates saved in the database.
 
-![Search1](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a5096d24-f715-425c-8f68-ef08a4ee2897/Screen_Shot_2021-04-30_at_11.07.08_AM.png)
+<img src="./README-images/img6.png" width="30%">
+
 
 Destination search on the home page only shows regions and cities.
 
-![Search2](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b3b066d4-4e94-4558-9ebf-c8fbb2b83ce1/Screen_Shot_2021-04-30_at_11.07.27_AM.png)
+<img src="./README-images/img7.png" width="30%">
+
 
 Whereas more variety of destinations are shown on the stay page.
 
@@ -167,9 +179,18 @@ The ability to freely experiment with changes on the project was important to us
 
 ---
 
-Code were tested two ways: manual testing and Jest testing.
+Code were tested two ways: manual testing and automated testing. Manual testing were done using console.logs across the system. Whereas, automated testing were done on both the frontend and backend.
 
-[//to](//to) be added
+For the frontend, we developed 5 suitcases (comprise of 22 cases) to test all important and viewable components by looking for key components(e.g. buttons) and keywords (e.g. EDIT/ DELETE) that should appear in front of the client. We also developed a test case to check the validity of Mapbox's geocoding API. To run tests:
+
+```java
+$cd frontend
+$npm test
+```
+
+For the backend:
+
+[//to](//to) be added by Jerry
 
 ## Project Management
 

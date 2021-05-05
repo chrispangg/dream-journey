@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import throttle from "lodash/throttle";
 import axios from "axios";
-import mapboxgl from "mapbox-gl";
+// import mapboxgl from "mapbox-gl";
 
 const useStyles = makeStyles((theme) => ({
 	icon: {
@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GoogleMaps(props) {
-	mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
+	// mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
+	const token = process.env.REACT_APP_MAPBOX;
 	const classes = useStyles();
 	const [value, setValue] = React.useState(null);
 	const [inputValue, setInputValue] = React.useState("");
@@ -31,7 +32,7 @@ export default function GoogleMaps(props) {
 			throttle(async (input, callback) => {
 				const locationURI = encodeURIComponent(input.input);
 				const response = await axios.get(
-					`https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=${props.types}&access_token=${mapboxgl.accessToken}&proximity=171.779900195937,-41.8388752215127`
+					`https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?types=${props.types}&access_token=${token}&proximity=171.779900195937,-41.8388752215127`
 				);
 				// console.log(response);
 				callback(response.data.features);
