@@ -67,7 +67,6 @@ router.get('/:tripId', async (req, res) => {
   }
 
   res.json(trip);
-
 });
 
 //Update trip
