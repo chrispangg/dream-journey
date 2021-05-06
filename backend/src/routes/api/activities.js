@@ -23,6 +23,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id: tripId } = req.params;
+  console.log("trip: " + tripId);
   const trip = await tripsDao.retrieveTrip(tripId);
 
   if (!trip) {

@@ -12,10 +12,10 @@ var jwtCheck = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: 'https://dev-nr4vf4rz.au.auth0.com/.well-known/jwks.json'
+    jwksUri: 'https://dev-z1kdxkyw.au.auth0.com/.well-known/jwks.json'
   }),
   audience: 'https://travelmate/api',
-  issuer: 'https://dev-nr4vf4rz.au.auth0.com/',
+  issuer: 'https://dev-z1kdxkyw.au.auth0.com/',
   algorithms: ['RS256']
 });
 
