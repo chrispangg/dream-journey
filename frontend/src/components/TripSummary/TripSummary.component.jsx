@@ -17,7 +17,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import SearchField from "../Mapbox/SearchField/SearchField";
 
 const useStyles = makeStyles({
 	table: {
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function StaySummary() {
+export default function TripSummary() {
 	const classes = useStyles();
 
 	const { trips, isLoading, deleteTrips, updateTrips } = useContext(AppContext);
@@ -91,12 +90,10 @@ export default function StaySummary() {
 								End Date
 							</TableCell>
 							<TableCell align="center" width="10%">
-								{" "}
-								Edit/ Delete{" "}
+								Edit/ Delete
 							</TableCell>
 							<TableCell align="center" width="10%">
-								{" "}
-								View{" "}
+								View
 							</TableCell>
 						</TableRow>
 					</TableHead>
@@ -181,9 +178,8 @@ export default function StaySummary() {
 										name="locationName"
 										onChange={handleInputChange}
 										value={formValue.locationName}
-										disabled = "true"
+										disabled="true"
 									/>
-									
 								</Box>
 							</Box>
 							<Box display="flex" alignItems="center">
