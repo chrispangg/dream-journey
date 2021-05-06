@@ -1,32 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useAuth0} from "@auth0/auth0-react";
+import useAccessToken from "./useAccessToken";
 
 export default function useCrud(baseURL, initialState = null, idProp = '_id') {
     const [data, setData] = useState(initialState);
     const [isLoading, setIsLoading] = useState(false);
     const [version, setVersion] = useState(0);
-    const [accessToken, setAccessToken] = useState("");
-    const {getAccessTokenSilently, loginWithRedirect} = useAuth0();
+    const { getAccessToken } = useAccessToken();
     const authIsLoading = useAuth0().isLoading;
-
-    async function getAccessToken(){
-      try {
-        if (accessToken !== "") {
-          return accessToken
-        } else {
-          const accessToken = await getAccessTokenSilently()
-          setAccessToken(accessToken);
-          return accessToken
-        }
-      } catch (e) {
-        if (e.error === 'login_required' || e.error === 'consent_required') {
-          loginWithRedirect();
-        }
-        throw e;
-      }
-    }
-
 
   useEffect(() => {
         console.log("Calling useEffect in useCrud")
