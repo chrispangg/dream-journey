@@ -8,11 +8,13 @@
     "server": "npm run start",
     "production": "cross-env NODE_ENV=production PORT=3000 node -r esm ./src/server.js",
     "init-db-stays": "node -r esm ./src/db/init-db-stays.js",
-    "init-db-activities": "node -r esm ./src/db/init-db-activities.js"
+    "init-db-activities": "node -r esm ./src/db/init-db-activities.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
@@ -24,6 +26,13 @@
     "mongoose": "^5.12.3"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@types/jest": "^26.0.21",
+    "babel-jest": "^26.6.3",
+    "cross-env": "^7.0.3",
+    "jest": "^26.6.3",
+    "mongodb-memory-server": "^6.9.6",
+    "nock": "^13.0.11"
   }
 }
