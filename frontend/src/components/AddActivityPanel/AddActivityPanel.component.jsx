@@ -34,12 +34,12 @@ const AddActivityPanel = () => {
     notes: '',
   });
 
-  console.log(activity);
+  // console.log(activity);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     SetActivity({ ...activity, [name]: value });
-    console.log(activity);
+    // console.log(activity);
   };
 
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
@@ -48,8 +48,8 @@ const AddActivityPanel = () => {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
 
-  console.log(value);
-  console.log(options);
+  // console.log(value);
+  // console.log(options);
 
   const fetch = React.useMemo(
     () =>
@@ -65,7 +65,7 @@ const AddActivityPanel = () => {
             tripLocation[0].toString()
           )},${encodeURIComponent(tripLocation[1].toString())}`
         );
-        console.log(response);
+        // console.log(response);
         callback(response.data.features);
       }, 200),
     []
@@ -80,7 +80,7 @@ const AddActivityPanel = () => {
     }
 
     fetch({ input: inputValue, tripLocation: tripLongLat }, (results) => {
-      console.log(results);
+      // console.log(results);
       if (active) {
         let newOptions = [];
         if (value) {

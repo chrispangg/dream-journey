@@ -11,7 +11,7 @@ export default function useCrud(baseURL, initialState = null, idProp = '_id') {
     const authIsLoading = useAuth0().isLoading;
 
   useEffect(() => {
-        console.log("Calling useEffect in useCrud")
+        // console.log("Calling useEffect in useCrud")
         const makeRequest = async () => {
             const accessToken = await getAccessToken();
             setIsLoading(true);

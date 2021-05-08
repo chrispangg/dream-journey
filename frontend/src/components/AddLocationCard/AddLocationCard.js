@@ -45,12 +45,12 @@ const AddLocationCard = () => {
 	const { createTrips } = useContext(AppContext);
 
 	async function handleAdd() {
-		console.log("This is what we are adding: " + result);
+		// console.log("This is what we are adding: " + result);
 		setResult({ ...result, completed: true });
 	}
 
 	useEffect(() => {
-		console.log(result);
+		// console.log(result);
 		if (result.completed) {
 			createTrips({ result });
 			setResult({ ...result, completed: false });
