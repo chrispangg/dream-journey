@@ -11,20 +11,24 @@ const router = express.Router();
 //creating a new trip
 router.post('/', async (req, res) => {
   const resultBody = req.body.result;
-  const newTrip = await tripsDao.createTrip({
-    locationName: resultBody.destination,
-    longitude: resultBody.longitude,
-    latitude: resultBody.latitude,
-    startDate: resultBody.startDate,
-    endDate: resultBody.endDate,
-    userSub: req.user.sub
-  }, req.user.sub);
-  console.log('Add trip: ' + newTrip);
 
-  res
-    .status(HTTP_CREATED)
-    .header('Location', `/api/trips/${newTrip._id}`)
-    .json(newTrip);
+  if (resultBody.destination != null) {
+    const newTrip = await tripsDao.createTrip({
+      locationName: resultBody.destination,
+      longitude: resultBody.longitude,
+      latitude: resultBody.latitude,
+      startDate: resultBody.startDate,
+      endDate: resultBody.endDate,
+      userSub: req.user.sub
+    }, req.user.sub);
+  
+    res
+      .status(HTTP_CREATED)
+      .header('Location', `/api/trips/${newTrip._id}`)
+      .json(newTrip);
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 // retrieve all trips
@@ -37,16 +41,12 @@ router.get('/user/:userId', async (req, res) => {
   const { userId } = req.params;
   const trips = await tripsDao.retrieveAllUserTrips(userId);
   if (trips) {
-    if (trips.userSub !== req.user.sub)
-    {
+    if (trips.userSub !== req.user.sub) {
       res.sendStatus(400);
-    }
-    else
-    {
+    } else {
       res.json(trips);
     }
-  }
-  else {
+  } else {
     res.sendStatus(HTTP_NOT_FOUND);
   }
 });

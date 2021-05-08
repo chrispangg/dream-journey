@@ -12,6 +12,10 @@ const router = express.Router();
 // RESTful routes here
 
 router.post('/', async (req, res) => {
+  if (!req.body.hotel){
+    res.sendStatus(400);
+    return;
+  }
   const response = await staysDao.createStay(req.body, req.user.sub);
   res.json(response);
 });
@@ -77,8 +81,8 @@ router.delete('/:id', async (req, res) => {
     return
   }
 
-  await staysDao.deleteStay(id);
-  res.sendStatus(HTTP_NO_CONTENT);
+  const response = await staysDao.deleteStay(id);
+  res.json(response);
 });
 
 export default router;

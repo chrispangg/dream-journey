@@ -4,7 +4,7 @@ import {Trip} from "../schemas/trip-schema";
 
 //Retrieve all stays
 
-export async function retrieveAllStays() {
+export async function retrieveAllStays(userSub) {
   return await StayModel.find({userSub: userSub});
 }
 
