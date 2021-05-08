@@ -18,7 +18,7 @@ const Mapbox = () => {
 		const center = () =>{
 			// let option1 = [trips[0].longitude, trips[0].latitude];
 			let option1 = [lng, lat];
-			console.log(option1);
+			// console.log(option1);
 			if (option1 === null) {
 				option1 = [lng, lat];
 			}
@@ -43,7 +43,7 @@ const Mapbox = () => {
 			let longlat = [trip.longitude, trip.latitude];
 			let newMarker = new mapboxgl.Marker().setLngLat(longlat);
 			newMarker.addTo(map);
-			console.log("The coordinator is: " + newMarker.getLngLat().lng + ", " + newMarker.getLngLat().lat);
+			// console.log("The coordinator is: " + newMarker.getLngLat().lng + ", " + newMarker.getLngLat().lat);
 		});
 
 		//find geo location of user
