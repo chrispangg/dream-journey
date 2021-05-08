@@ -1,4 +1,5 @@
 import express from 'express';
+require("dotenv").config();
 
 const router = express.Router();
 
@@ -12,10 +13,10 @@ var jwtCheck = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: 'https://dev-nr4vf4rz.au.auth0.com/.well-known/jwks.json'
+    jwksUri: `https://${process.env.DOMAIN}/.well-known/jwks.json`
   }),
-  audience: 'https://travelmate/api',
-  issuer: 'https://dev-nr4vf4rz.au.auth0.com/',
+  audience: `${process.env.AUDIENCE}`,
+  issuer: `https://${process.env.DOMAIN}/`,
   algorithms: ['RS256']
 });
 

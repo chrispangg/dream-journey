@@ -33,7 +33,7 @@ const AddStayPanel = () => {
     notes: '',
   });
 
-  console.log(tripLongLat);
+  // console.log(tripLongLat);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -46,15 +46,15 @@ const AddStayPanel = () => {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
 
-  console.log(value);
-  console.log(options);
+  // console.log(value);
+  // console.log(options);
 
   const fetch = React.useMemo(
     () =>
       throttle(async (input, callback) => {
         const locationURI = encodeURIComponent(input.input);
         const tripLocation = input.tripLocation;
-        console.log(tripLocation);
+        // console.log(tripLocation);
 
         const response = await axios.get(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${locationURI}.json?limit=7&types=country,place,region,poi,neighborhood,locality,address&access_token=${
@@ -63,7 +63,7 @@ const AddStayPanel = () => {
             tripLocation[0].toString()
           )},${encodeURIComponent(tripLocation[1].toString())}`
         );
-        console.log(response);
+        // console.log(response);
         callback(response.data.features);
       }, 200),
     []
@@ -78,7 +78,7 @@ const AddStayPanel = () => {
     }
 
     fetch({ input: inputValue, tripLocation: tripLongLat }, (results) => {
-      console.log(results);
+      // console.log(results);
       if (active) {
         let newOptions = [];
         if (value) {

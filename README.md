@@ -59,7 +59,7 @@ DOMAIN=**your_auth0_domain**
 AUDIENCE=**your_auth0_api_identifier**
 ```
 
-For a quick start, we have included a .env.example file which you can simply copy and paste to your own .env files. The .env.example file is available for both the frontend and backend.
+**For a quick start, we have included a .env.example file which you can simply copy and paste to your own .env files. The .env.example file is available for both the frontend and backend.**
 
 ### Install the dependencies
 
@@ -108,7 +108,7 @@ Upon loading, you will see a map that contains markers of all the destinations y
 
 ### View Activity/ Stay
 
-Here you will see all the activities and stay details of the specific trip. This allows you to plan your trip ahead of time and give you a good glance at all the places you will be visiting during the trip. To add an activity or stay, click on the activity or stay tab and enter the location and travel details. Once added, the page will display the details in the summary tab, and a marker will appear on the map. Similar to trips, the user can also change or delete the activity/ trip by clicking the "edit" or "delete" button, respectively.
+Here you will see all the activities and stay details of the specific trip. This allows you to plan your trip ahead of time and give you a good glance at all the places you will be visiting during the trip. To add an activity or stay, click on the activity or stay tab and enter the location and travel details. Once added, the page will display the details in the summary tab, and a marker will appear on the map (stays are in green and activities are in blue). Similar to trips, the user can also change or delete the activity/ trip by clicking the "edit" or "delete" button, respectively.
 
 <img src="./README-images/img3.png" width="50%">
 
@@ -188,7 +188,11 @@ $cd frontend
 $npm test
 ```
 
-For the backend, we developed 3 testing files (comprise of 30 cases) to test all three API routes: trips, activities, and stays. Each testing file will test on different methods to retrieve the data from API (GET, POST, PUT, DELETE). Due to we are using Auth0, so the testing files are using middleware and JWT to do the testing (refer to task 3 from assignment 1). To run tests:
+For the backend, we developed 3 testing files (comprise of 30 cases) to test all three API routes: trips, activities, and stays. Each testing file will test on different methods to retrieve the data from API (GET, POST, PUT, DELETE). As we are using Auth0 testing files uses middleware and JWT (refer to task 3 from assignment 1).
+
+To test with your own Auth0 credentials, please replace the credentials in autho_config.json. Otherwise, feel free to run it as is.
+
+To run tests:
 
 ```java
 $cd backend
