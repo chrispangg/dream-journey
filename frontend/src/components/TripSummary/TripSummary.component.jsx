@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 export default function TripSummary() {
 	const classes = useStyles();
 
-	const { trips, isLoading, deleteTrips, updateTrips } = useContext(AppContext);
+	const { trips, deleteTrips, updateTrips } = useContext(AppContext);
 
 	const [tripId, setTripId] = useState(null);
 

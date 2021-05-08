@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import useGet from '../hooks/useGet';
 import { useRouteMatch } from 'react-router-dom';
 import useAccessToken from "../hooks/useAccessToken";
