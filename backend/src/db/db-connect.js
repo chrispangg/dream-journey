@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// require("dotenv").config();
+require("dotenv").config();
 
 const DEFAULT_CONNECTION_STRING = process.env.DB_CONNECTION;
 
