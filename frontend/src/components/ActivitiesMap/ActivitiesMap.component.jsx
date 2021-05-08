@@ -27,20 +27,14 @@ const ActivitiesMap = () => {
       center: [lng, lat],
       zoom: zoom,
     });
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-    });
-    map.addControl(geocoder);
-    // geocoder.onAdd(map);
-    // geocoder.addTo(geocoderContainer.current);
+   
 
     map.on('move', () => {
       setLng(map.getCenter().lng.toFixed(4));
       setLat(map.getCenter().lat.toFixed(4));
       setZoom(map.getZoom().toFixed(2));
     });
-    console.log(zoom);
+    // console.log(zoom);
     if (
       tripLocation &&
       tripLongLat[0] !== undefined &&
