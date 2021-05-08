@@ -4,7 +4,7 @@ import {StayModel} from "../schemas/stays-schema";
 
 //Retrieve all activities
 
-export async function retrieveAllActivities() {
+export async function retrieveAllActivities(userSub) {
   return await ActivityModel.find({userSub: userSub});
 }
 
