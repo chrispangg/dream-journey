@@ -13,7 +13,7 @@ const request = require("request-promise-native");
 const authConfig = require("../../../auth_config.json");
 
 let mongod, app, server;
-const PORT = 3000;
+const PORT = 3002;
 const firstMongoID = new mongoose.mongo.ObjectId("000000000000000000000001");
 const secondMongoID = new mongoose.mongo.ObjectId("000000000000000000000002");
 const thirdMongoID = new mongoose.mongo.ObjectId("000000000000000000000003");

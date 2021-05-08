@@ -53,7 +53,7 @@ REACT_APP_MAPBOX=**your_mapbox_token**
 Now to setup your MongoDB connection, head to `backend`>`.env`, and enter your mongoDB connection string, Auth0 domain, and Auth0 API identifier:
 
 ```jsx
-DEFAULT_CONNECTION_STRING=**mongodb+srv://your_username:your_password@your_mongoD_connnection_string**
+DB_CONNECTION=**mongodb+srv://your_username:your_password@your_mongoD_connnection_string**
 
 DOMAIN=**your_auth0_domain**
 AUDIENCE=**your_auth0_api_identifier**

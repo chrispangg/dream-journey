@@ -1,10 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
 import ActivitiesMap from '../components/ActivitiesMap/ActivitiesMap.component';
 import CombinedPanel from '../components/CombinedPanel/CombinePanel.component';
 import CombinedSummary from '../components/CombinedSummary/CombinedSummary.component';
 import {
-  TripDetailsContextProvider,
-  TripDetailsContext,
+  TripDetailsContextProvider
 } from './TripDetailsProvider';
 import { withRouter } from 'react-router-dom';
 
