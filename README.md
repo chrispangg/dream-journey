@@ -188,9 +188,12 @@ $cd frontend
 $npm test
 ```
 
-For the backend:
+For the backend, we developed 3 testing files (comprise of 30 cases) to test all three API routes: trips, activities, and stays. Each testing file will test on different methods to retrieve the data from API (GET, POST, PUT, DELETE). Due to we are using Auth0, so the testing files are using middleware and JWT to do the testing (refer to task 3 from assignment 1). To run tests:
 
-[//to](//to) be added by Jerry
+```java
+$cd backend
+$npm test
+```
 
 ## Project Management
 

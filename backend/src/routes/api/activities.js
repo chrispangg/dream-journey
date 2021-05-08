@@ -13,6 +13,10 @@ const router = express.Router();
 // RESTful routes here
 
 router.post('/', async (req, res) => {
+  if (!req.body.activity) {
+    res.sendStatus(400);
+    return;
+  }
   const response = await activitiesDao.createActivity(req.body, req.user.sub);
   res.json(response);
 });
@@ -23,17 +27,16 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id: tripId } = req.params;
-  console.log("trip: " + tripId);
   const trip = await tripsDao.retrieveTrip(tripId);
 
   if (!trip) {
     res.sendStatus(HTTP_NOT_FOUND);
-    return
+    return;
   }
 
   if (trip.userSub !== req.user.sub) {
     res.sendStatus(401);
-    return
+    return;
   }
 
   const activities = await activitiesDao.retrieveActivities(tripId);

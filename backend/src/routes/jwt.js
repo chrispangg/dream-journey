@@ -1,6 +1,6 @@
 const nock = require("nock");
 const jwt = require("jsonwebtoken");
-const authConfig = require("../../../auth_config.json");
+const authConfig = require("../../auth_config.json");
 
 const privateKey = `-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEA1QH5TgytUiMZmycqLoJCtTnta5Fapc9vCTjj4oI7N5jgztZT
@@ -72,7 +72,6 @@ const getToken = () => {
 	try {
 		token = jwt.sign(payload, privateKey, options);
 	} catch (err) {
-		console.log(err);
 		throw err;
 	}
 

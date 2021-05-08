@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import connectToDatabase from "../../db/db-connect";
 import { Trip } from "../../db/schemas/trip-schema";
-import { getToken } from "./jwt";
+import { getToken } from "../jwt";
 import dayjs from 'dayjs';
 
 const jwksRsa = require("jwks-rsa");
@@ -13,11 +13,16 @@ const request = require("request-promise-native");
 const authConfig = require("../../../auth_config.json");
 
 let mongod, app, server;
+const PORT = 3000;
+const firstMongoID = new mongoose.mongo.ObjectId("000000000000000000000001");
+const secondMongoID = new mongoose.mongo.ObjectId("000000000000000000000002");
+const thirdMongoID = new mongoose.mongo.ObjectId("000000000000000000000003");
+const noneExistID = new mongoose.mongo.ObjectId("000000000000000000000000");
 
 jest.setTimeout(100000);
 
 const firstTrip = {
-	_id: new mongoose.mongo.ObjectId("000000000000000000000001"),
+	_id: firstMongoID,
 	locationName: "New York City, New York, United States",
 	longitude: "151.21",
 	latitude: "-33.868",
@@ -27,7 +32,7 @@ const firstTrip = {
 };
 
 const secondTrip = {
-	_id: new mongoose.mongo.ObjectId("000000000000000000000002"),
+	_id: secondMongoID,
 	locationName: "Melbourne, Victoria, Australia",
 	longitude: "144.9632",
 	latitude: "-37.8142",
@@ -37,7 +42,7 @@ const secondTrip = {
 };
 
 const thirdTrip = {
-	_id: new mongoose.mongo.ObjectId("000000000000000000000003"),
+	_id: thirdMongoID,
 	locationName: "Sydney, New South Wales, Australia",
 	longitude: "114.15861",
 	latitude: "22.27833",
@@ -69,7 +74,7 @@ beforeAll(async (done) => {
 	app.use("/", checkJwt);
 	app.use(express.json());
 	app.use("/api/trips", router);
-	server = app.listen(3001, done);
+	server = app.listen(PORT, done);
 });
 
 beforeEach(async () => {
@@ -92,7 +97,7 @@ const makeAuthdRequest = async (method, uri, body) => {
 	const token = getToken();
 
 	const options = {
-		baseUrl: "http://localhost:3001",
+		baseUrl: `http://localhost:${PORT}`,
 		method,
 		uri,
 		headers: { Authorization: `Bearer ${token}` },
@@ -102,10 +107,7 @@ const makeAuthdRequest = async (method, uri, body) => {
 
 	if (body) options.body = body;
 
-	console.log(options);
-
 	const response = await request(options).catch((err) => {
-		console.log("Error message: " + err.message);
 		throw err;
 	});
 	
@@ -134,7 +136,7 @@ test("Retrieves all trips successfully!", async () => {
 });
 
 test("Retrieves a single trip successfully!", async () => {
-	const response = await makeAuthdRequest("GET", "/api/trips/000000000000000000000002");
+	const response = await makeAuthdRequest("GET", `/api/trips/${secondMongoID}`);
 	expect(response.statusCode).toBe(200);
 	const responseTrips = response.body;
 
@@ -151,7 +153,7 @@ test("Retrieves a single trip successfully!", async () => {
 // Testing HTTP NOT FOUND
 test('Returns a 404 when attempting to retrieve a nonexistent trip (valid id but not found)', async () => {
     try {
-        await makeAuthdRequest("GET", "/api/trips/000000000000000000000000");
+        await makeAuthdRequest("GET", `/api/trips/${noneExistID}`);
         fail('Should have thrown an exception.');
     } catch (err) {
         const { response } = err;
@@ -172,64 +174,66 @@ test('Returns a 400 when attempting to retrieve a nonexistant trip (invalid id)'
     }
 });
 
-// test('Create a new trip', async () => {
-//     const newTrip = {
-//         locationName: "Testing new trip",
-//         longitude: "101.17",
-//         latitude: "-22.67",
-//         startDate: new Date("2023-01-01 GMT"),
-//         endDate: new Date("2021-05-30 GMT"),
-//         userSub: "testing-user-one-sub"
-//     };
+test('Create a new trip', async () => {
+    const newTrip = {
+		result: {
+			destination: "Testing new trip",
+			longitude: "101.17",
+			latitude: "-22.67",
+			startDate: new Date("2023-01-01 GMT"),
+			endDate: new Date("2021-05-30 GMT"),
+			sub: "testing-user-one-sub"
+		}
+    };
 
-//     const response = await makeAuthdRequest("POST", "/api/trips", newTrip);
+    const response = await makeAuthdRequest("POST", "/api/trips", newTrip);
 
-//     expect(response.status).toBe(201);
-//     expect(response.data).toBeDefined();
-//     const responseTrip = response.data;
-//     expect(responseTrip.locationName).toBe(newTrip.locationName);
-//     expect(responseTrip.longitude).toBe(newTrip.longitude);
-//     expect(responseTrip.latitude).toBe(newTrip.latitude);
-//     expect(dayjs(responseTrip.startDate)).toEqual(dayjs(newTrip.startDate));
-//     expect(dayjs(responseTrip.endDate)).toEqual(dayjs(newTrip.endDate));
-//     expect(responseTrip._id).toBeDefined();
-//     expect(response.headers.location).toBe(`/api/trips/${responseTrip._id}`);
+    expect(response.statusCode).toBe(201);
+    const responseTrip = response.body;
+    expect(responseTrip.locationName).toBe(newTrip.result.destination);
+    expect(responseTrip.longitude).toBe(newTrip.result.longitude);
+    expect(responseTrip.latitude).toBe(newTrip.result.latitude);
+    expect(dayjs(responseTrip.startDate)).toEqual(dayjs(newTrip.result.startDate));
+    expect(dayjs(responseTrip.endDate)).toEqual(dayjs(newTrip.result.endDate));
+    expect(responseTrip._id).toBeDefined();
+    expect(response.headers.location).toBe(`/api/trips/${responseTrip._id}`);
 
-//     const dbTrip = await Trip.findById(responseTrip._id);
-//     expect(dbTrip.locationName).toBe(newTrip.locationName);
-//     expect(dbTrip.longitude).toBe(newTrip.longitude);
-//     expect(dbTrip.latitude).toBe(newTrip.latitude);
-//     expect(dayjs(dbTrip.startDate)).toEqual(dayjs(newTrip.startDate));
-//     expect(dayjs(dbTrip.endDate)).toEqual(dayjs(newTrip.endDate));
-// });
+    const dbTrip = await Trip.findById(responseTrip._id);
+    expect(dbTrip.locationName).toBe(newTrip.result.destination);
+    expect(dbTrip.longitude).toBe(newTrip.result.longitude);
+    expect(dbTrip.latitude).toBe(newTrip.result.latitude);
+    expect(dayjs(dbTrip.startDate)).toEqual(dayjs(newTrip.result.startDate));
+    expect(dayjs(dbTrip.endDate)).toEqual(dayjs(newTrip.result.endDate));
+});
 
-// test('Gives a 400 error when trying to create a trip with no location name', async () => {
-//     try {
-//         const newTrip = {
-//             longitude: "101.17",
-//             latitude: "-22.67",
-//             startDate: new Date("2023-01-01 GMT"),
-//         	endDate: new Date("2021-05-30 GMT"),
-//             userSub: "testing-user-one-sub"
-//         }
+test('Gives a 400 error when trying to create a trip with no location name', async () => {
+    try {
+        const newTrip = {
+            result: {
+				longitude: "101.17",
+				latitude: "-22.67",
+				startDate: new Date("2023-01-01 GMT"),
+				endDate: new Date("2021-05-30 GMT"),
+				sub: "testing-user-one-sub"
+			}
+        }
 
-//         await makeAuthdRequest("POST", "/api/trips", newTrip);
-//         fail('Should have thrown an exception.');
-//     } catch (err) {
+        await makeAuthdRequest("POST", "/api/trips", newTrip);
+        fail('Should have thrown an exception.');
+    } catch (err) {
+        // Ensure response is as expected
+        const { response } = err;
+        expect(response).toBeDefined();
+        expect(response.statusCode).toBe(400);
 
-//         // Ensure response is as expected
-//         const { response } = err;
-//         expect(response).toBeDefined();
-//         expect(response.status).toBe(400);
-
-//         // Ensure DB wasn't modified
-//         expect(await Todo.countDocuments()).toBe(3);
-//     }
-// });
+        // Ensure DB wasn't modified
+        expect(await Trip.countDocuments()).toBe(3);
+    }
+});
 
 test('Updates a trip successfully', async () => {
     const toUpdate = {
-        _id: new mongoose.mongo.ObjectId("000000000000000000000003"),
+        _id: thirdMongoID,
 		locationName: "Update location",
 		longitude: "111.235",
 		latitude: "-17.548",
@@ -238,14 +242,13 @@ test('Updates a trip successfully', async () => {
 		userSub: "testing-user-one-sub",
     }
 
-    // const response = await axios.put('http://localhost:3000/api/todos/000000000000000000000004', toUpdate);
-	const response = await makeAuthdRequest("PUT", "/api/trips/000000000000000000000003", toUpdate);
+	const response = await makeAuthdRequest("PUT", `/api/trips/${thirdMongoID}`, toUpdate);
 
     // Check response
     expect(response.statusCode).toBe(204);
 
     // Ensure DB was updated
-    const dbTrip = await Trip.findById('000000000000000000000003');
+    const dbTrip = await Trip.findById(thirdTrip._id);
     expect(dbTrip.locationName).toBe(toUpdate.locationName);
     expect(dbTrip.longitude).toBe(toUpdate.longitude);
     expect(dbTrip.latitude).toBe(toUpdate.latitude);
@@ -253,10 +256,10 @@ test('Updates a trip successfully', async () => {
     expect(dayjs(dbTrip.endDate)).toEqual(dayjs(toUpdate.endDate));
 });
 
-test('Gives a 404 when updating a nonexistant todo', async () => {
+test('Gives a 404 when updating a nonexistant trip', async () => {
     try {
         const toUpdate = {
-            _id: new mongoose.mongo.ObjectId('000000000000000000000007'),
+            _id: noneExistID,
             locationName: "Update location",
 			longitude: "111.235",
 			latitude: "-17.548",
@@ -265,7 +268,7 @@ test('Gives a 404 when updating a nonexistant todo', async () => {
 			userSub: "testing-user-one-sub",
         }
 
-        await makeAuthdRequest("PUT", "/api/trips/000000000000000000000007", toUpdate);
+        await makeAuthdRequest("PUT", `/api/trips/${noneExistID}`, toUpdate);
         fail('Should have returned a 404');
     } catch (err) {
         const { response } = err;
@@ -279,16 +282,16 @@ test('Gives a 404 when updating a nonexistant todo', async () => {
 
 test('Deletes a trip', async () => {
 
-    const response = await makeAuthdRequest("DELETE", "/api/trips/000000000000000000000001");
+    const response = await makeAuthdRequest("DELETE", `/api/trips/${firstMongoID}`);
     expect(response.statusCode).toBe(204);
 
     // Check db item was deleted
-    expect(await Trip.findById('000000000000000000000001')).toBeNull();
+    expect(await Trip.findById(firstTrip._id)).toBeNull();
 });
 
 test('Doesn\'t delete anything when it shouldn\'t', async () => {
 	try {
-        await makeAuthdRequest("DELETE", "/api/trips/000000000000000000000007");
+        await makeAuthdRequest("DELETE", `/api/trips/${noneExistID}`);
         fail('Should have returned a 404');
     } catch (err) {
         const { response } = err;
