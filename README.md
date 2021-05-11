@@ -14,7 +14,7 @@ DreamJourney is a web application that allows users to log their travel destinat
 
 ---
 
-To run the application locally, you are required to have an account with two service providers:
+To run the application locally, you are required to have an account with three service providers:
 
 - Auth0
 - Mapbox
