@@ -43,7 +43,6 @@ const Mapbox = () => {
 			let longlat = [trip.longitude, trip.latitude];
 			let newMarker = new mapboxgl.Marker().setLngLat(longlat);
 			newMarker.addTo(map);
-			// console.log("The coordinator is: " + newMarker.getLngLat().lng + ", " + newMarker.getLngLat().lat);
 		});
 
 		//find geo location of user

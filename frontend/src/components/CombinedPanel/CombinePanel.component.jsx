@@ -5,7 +5,6 @@ import {
   Tabs,
   Box,
   Typography,
-  AppBar,
   Paper,
 } from '@material-ui/core';
 import AddActivityPanel from '../AddActivityPanel/AddActivityPanel.component';

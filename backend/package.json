@@ -9,11 +9,15 @@
     "production": "cross-env NODE_ENV=production PORT=3000 node -r esm ./src/server.js",
     "init-db-stays": "node -r esm ./src/db/init-db-stays.js",
     "init-db-activities": "node -r esm ./src/db/init-db-activities.js",
-    "test": "jest"
+    "test": "jest",
+    "build": "babel server.js --out-file server.compiled.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "latest",
+    "body-parser": "latest",
+    "aws-sdk": "^2.935.0",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "bson": "^1.1.6",
